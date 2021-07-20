@@ -52,8 +52,8 @@ export const Character = {
     return Regex.AsciiIdentifierPart.test(ch) || Regex.NonAsciiIdentifierPart.test(ch);
   },
 
-  isKeyWord: function (ch) {
-    return Keywords.indexOf(ch) !== -1;
+  isKeyWord: function (word) {
+    return Keywords.indexOf(word) !== -1 || ReservedWord.indexOf(word) !== -1;
   },
 
   isDecimalDigit: function (ch) {

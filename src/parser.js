@@ -1,4 +1,7 @@
-import { SyntaxTypes } from "./type.js";
+import { SyntaxTypes } from "./type.js"
+import './statement.js'
+import './tokenize.js'
+import './utils.js'
 
 export class Parser {
   constructor(input) {
@@ -14,7 +17,7 @@ export class Parser {
   }
 }
 
-Parser.prototype.parseProgram = function(){
+Parser.prototype.parseProgram = function () {
   const program = {
     type: SyntaxTypes.Program,
     body: this.parseSourceElements()

@@ -29,16 +29,26 @@ export class Token {
     }
 }
 
+// Called at the end of every token
+Parser.prototype.finishToken = function (type, value) {
+    return { type: type, value: value };
+}
+
 // Read a single token
 Parser.prototype.readToken = function () {
-    while (this.pos < this.inputLen) {
-        let ch = this.input[this.pos];
+    if (this.pos >= this.inputLen) return { type: TokenTypes.EOF };
 
-        if (Character.isIdentifierStart(ch)) this.readWord();
-        else if (Character.isDecimalDigit(ch)) this.readNumber();
-        else if (Character.isPunctuator(ch)) this.readPunctuator();
-        else throw new TypeError(Errors.UnexpectedToken + ":" + ch);
-    }
+    let ch = this.input[this.pos];
+
+    if (Character.isPunctuator(ch)) return this.readPunctuator();
+
+    if (Character.isIdentifierStart(ch)) return this.readWord();
+
+    if (ch === '\.' || Character.isDecimalDigit(ch)) return this.readNumber();
+
+    if (ch === '\'' || ch === '\"') return this.readString();
+
+    throw new TypeError(Errors.UnexpectedToken + ":" + ch);
 }
 
 // Read a single word
@@ -51,7 +61,7 @@ Parser.prototype.readWord = function () {
     }
     let word = this.input.slice(start, this.pos);
 
-    if (Character.isKeyWord()) return { type: TokenTypes.Keyword, value: word };
+    if (Character.isKeyWord(word)) return { type: TokenTypes.Keyword, value: word };
     return { type: TokenTypes.Identifier, value: word };
 }
 
@@ -60,8 +70,13 @@ Parser.prototype.readNumber = function () {
 
 }
 
+// Read s string
+Parser.prototype.readString = function () {
+
+}
+
 // Read punctuators
-Parser.prototype.readPunctuator = function() {
+Parser.prototype.readPunctuator = function () {
     let ch = this.input[this.pos];
     ++this.pos;
     return { type: TokenTypes.Punctuator, value: ch };

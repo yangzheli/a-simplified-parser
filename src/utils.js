@@ -1,5 +1,5 @@
 import { Parser } from './parser.js'
-import { TokenTypes } from './type.js';
+import { TokenTypes } from './type.js'
 
 // Whether the next token matches the specified punctuator
 Parser.prototype.match = function (value) {

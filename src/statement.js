@@ -92,9 +92,14 @@ Parser.prototype.parseDoWhileStatement = function () {
 
 // Variable declaration
 Parser.prototype.parseVarStatement = function () {
+  const declarations = this.parseVar();
+
   this.consumeSemicolon();
+
   return {
-    type:SyntaxTypes.VariableDeclarator,
+    type: SyntaxTypes.VariableDeclarator,
+    declarations: declarations,
+    kind: 'var'
   }
 }
 
@@ -146,4 +151,36 @@ Parser.prototype.parseForStatement = function () {
 // Try catch finally statement
 Parser.prototype.parseTryStatement = function () {
 
+}
+
+// Parse a list of variable declarations
+Parser.prototype.parseVarList = function () {
+  let declarations = [];
+
+  while (this.pos < this.inputLen) {
+    declarations.push(this.parseVar());
+    if (!this.match(',')) break;
+  }
+
+  return declarations;
+}
+
+// parse a single variable declaration
+Parser.prototype.parseVar = function () {
+  let init = null;
+  const identifier = this.readToken();
+
+  // const 变量声明时必须赋值
+  if (this.kind === 'const') {
+    this.expect('=');
+    init = this.parseAssignmentExpression();
+  } else if (this.match('=')) {
+    init = this.parseAssignmentExpression();
+  }
+
+  return {
+    type: SyntaxTypes.VariableDeclarator,
+    id: identifier,
+    init: init
+  }
 }
