@@ -1,5 +1,6 @@
 import { Parser } from './parser.js'
-import { TokenTypes, SyntaxTypes } from './type.js'
+import { TokenTypes } from './type.js'
+import * as Node from './node.js'
 
 Parser.prototype.parseStatement = function (token) {
   let type = token.type, value = token.value;
@@ -92,15 +93,11 @@ Parser.prototype.parseDoWhileStatement = function () {
 
 // Variable declaration
 Parser.prototype.parseVarStatement = function () {
-  const declarations = this.parseVar();
+  const declarations = this.parseVarList();
 
   this.consumeSemicolon();
 
-  return {
-    type: SyntaxTypes.VariableDeclarator,
-    declarations: declarations,
-    kind: 'var'
-  }
+  return new Node.VariableDeclaration(declarations, 'var');
 }
 
 // Catch statement
@@ -168,7 +165,7 @@ Parser.prototype.parseVarList = function () {
 // parse a single variable declaration
 Parser.prototype.parseVar = function () {
   let init = null;
-  const identifier = this.readToken();
+  const identifier = this.parseVariableIdentifier();
 
   // const 变量声明时必须赋值
   if (this.kind === 'const') {
@@ -178,9 +175,15 @@ Parser.prototype.parseVar = function () {
     init = this.parseAssignmentExpression();
   }
 
-  return {
-    type: SyntaxTypes.VariableDeclarator,
-    id: identifier,
-    init: init
+  return new Node.VariableDeclarator(identifier, init);
+}
+
+Parser.prototype.parseVariableIdentifier = function () {
+  const token = this.readToken();
+
+  if (token.type !== TokenTypes.Identifier) {
+    throw new Error();
   }
+
+  return new Node.Identifier(token.value);
 }

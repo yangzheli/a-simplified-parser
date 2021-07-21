@@ -1,59 +1,51 @@
-/**
- * Token types
- */
-class Type {
-    constructor(type) {
-        this.type = type;
-    }
-}
-
 // esprima.js
 // Types after tokenize
 export const TokenTypes = {
-    BooleanLiteral: new Type('BooleanLiteral'),
-    EOF: new Type('EOF'),
-    Identifier: new Type('Identifier'),
-    Keyword: new Type('Keyword'),
-    NullLiteral: new Type('NullLiteral'),
-    NumericLiteral: new Type('NumericLiteral'),
-    Punctuator: new Type('Punctuator'),
-    StringLiteral: new Type('StringLiteral')
+    BooleanLiteral: 'BooleanLiteral',
+    EOF: 'EOF',
+    Identifier: 'Identifier',
+    Keyword: 'Keyword',
+    NullLiteral: 'NullLiteral',
+    NumericLiteral: 'NumericLiteral',
+    Punctuator: 'Punctuator',
+    StringLiteral: 'StringLiteral'
 }
 
 // Types after parse
 export const SyntaxTypes = {
-    Program: new Type('Program'),  // root
+    Program: 'Program',  // root
 
-    Literal: new Type('Literal'),  // number string boolean null undefined regexp
+    Literal: 'Literal',  // number string boolean null undefined regexp
 
     // punctuations
-    BlockStatement: new Type('BlockStatement'),    // {}
-    ArrayExpression: new Type('ArrayExpression'), // []
-    AssignmentExpression: new Type('AssignmentExpression'),    // =
-    EmptyStatement: new Type('EmptyStatement'),   // ;
-    BinaryExpression: new Type('BinaryExpression'),   // typeof instanceof
-    ExpressionStatement: new Type('ExpressionStatement'), // ?:
+    BlockStatement: 'BlockStatement',    // {}
+    ArrayExpression: 'ArrayExpression', // []
+    AssignmentExpression: 'AssignmentExpression',    // =
+    EmptyStatement: 'EmptyStatement',   // ;
+    BinaryExpression: 'BinaryExpression',   // typeof instanceof
+    ExpressionStatement: 'ExpressionStatement', // ?:
 
     // identifier
-    Identifier: new Type('Identifier'),
+    Identifier: 'Identifier',
 
     // keywords
-    BreakStatement: new Type('BreakStatement'),    // break
-    FunctionDeclaration: new Type('FunctionDeclaration'),  // function
-    ReturnStatement: new Type('ReturnStatement'),  // return
-    SwitchCase: new Type('SwitchCase'),    // switch case
-    DoWhileStatement: new Type('DoWhileStatement'), // do while
-    IfStatement: new Type('IfStatement'),  // if
-    SwitchStatement: new Type('SwitchStatement'),   // switch
-    VariableDeclarator: new Type('VariableDeclarator'),    // var
-    CatchClause: new Type('CatchClause'),  // case
-    ForInStatement: new Type('ForInStatement'),    // for in
-    ThisExpression: new Type('ThisExpression'),   // this
-    ContinueStatement: new Type('ContinueStatement'), // continue
-    ThrowStatement: new Type('ThrowStatement'),    // throw
-    DebuggerStatement: new Type('DebuggerStatement'),  // debugger
-    NewExpression: new Type('NewExpression'), // new
-    WithStatement: new Type('WithStatement'),  // with
-    ForStatement: new Type('ForStatement'),    // for
-    TryStatement: new Type('TryStatement'),    // try catch finally
+    BreakStatement: 'BreakStatement',    // break
+    FunctionDeclaration: 'FunctionDeclaration',  // function
+    ReturnStatement: 'ReturnStatement',  // return
+    SwitchCase: 'SwitchCase',    // switch case
+    DoWhileStatement: 'DoWhileStatement', // do while
+    IfStatement: 'IfStatement',  // if
+    SwitchStatement: 'SwitchStatement',   // switch
+    VariableDeclaration: 'VariableDeclaration', // var
+    VariableDeclarator: 'VariableDeclarator',    // var
+    CatchClause: 'CatchClause',  // case
+    ForInStatement: 'ForInStatement',    // for in
+    ThisExpression: 'ThisExpression',   // this
+    ContinueStatement: 'ContinueStatement', // continue
+    ThrowStatement: 'ThrowStatement',    // throw
+    DebuggerStatement: 'DebuggerStatement',  // debugger
+    NewExpression: 'NewExpression', // new
+    WithStatement: 'WithStatement',  // with
+    ForStatement: 'ForStatement',    // for
+    TryStatement: 'TryStatement',    // try catch finally
 }

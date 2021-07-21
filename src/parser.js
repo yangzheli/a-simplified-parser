@@ -1,7 +1,4 @@
 import { SyntaxTypes } from "./type.js"
-import './statement.js'
-import './tokenize.js'
-import './utils.js'
 
 export class Parser {
   constructor(input) {
@@ -29,10 +26,9 @@ Parser.prototype.parseSourceElements = function () {
   let sourceElements = [];
 
   while (this.pos < this.inputLen) {
-    this.skipSpace();
     let token = this.readToken();
     let sourceElement = this.parseStatement(token);
-    sourceElements.push(token);
+    sourceElements.push(sourceElement);
   }
 
   return sourceElements;

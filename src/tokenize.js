@@ -38,9 +38,12 @@ Parser.prototype.finishToken = function (type, value) {
 Parser.prototype.readToken = function () {
     if (this.pos >= this.inputLen) return { type: TokenTypes.EOF };
 
+    this.skipSpace();
+
     let ch = this.input[this.pos];
 
-    if (Character.isPunctuator(ch)) return this.readPunctuator();
+    let token = this.readPunctuator();
+    if (token) return token;
 
     if (Character.isIdentifierStart(ch)) return this.readWord();
 
@@ -67,7 +70,40 @@ Parser.prototype.readWord = function () {
 
 // Read a single number
 Parser.prototype.readNumber = function () {
+    let start = this.pos, ch = this.input[this.pos];
+    let number = '';
 
+    if (ch !== '\.') {
+        // Non decimal number
+        // Hex number starts with '0x' or '0X'
+        // Octal number starts with '0' '0o' or '0O'
+        // Binary number starts with '0b' or '0B'
+        if (ch === '0') {
+            return;
+        }
+
+        // Decimal number
+        while (this.pos < this.inputLen) {
+            ch = this.input[this.pos];
+            if (!Character.isDecimalDigit(ch)) {
+                break;
+            }
+            number += this.input[this.pos++];
+        }
+    }
+
+    if (ch === '\.') {
+        ++this.pos;
+        return {
+            type: TokenTypes.NumericLiteral,
+            value: '.'
+        };
+    }
+
+    return {
+        type: TokenTypes.NumericLiteral,
+        value: number
+    }
 }
 
 // Read s string
@@ -78,8 +114,32 @@ Parser.prototype.readString = function () {
 // Read punctuators
 Parser.prototype.readPunctuator = function () {
     let ch = this.input[this.pos];
-    ++this.pos;
-    return { type: TokenTypes.Punctuator, value: ch };
+
+    if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === ';' || ch === ',') {
+        ++this.pos;
+        return {
+            type: TokenTypes.Punctuator,
+            value: ch
+        }
+    }
+
+    let ch2 = this.input[this.pos + 1];
+    if (ch === '\.' && !Character.isDecimalDigit(ch2)) {
+        ++this.pos;
+        return {
+            type: TokenTypes.Punctuator,
+            value: ch
+        }
+    }
+
+    // 1-character punctuators
+    if ('[]<>+-*%&|^!~?:=/'.indexOf(ch) !== -1) {
+        ++this.pos;
+        return {
+            type: TokenTypes.Punctuator,
+            value: ch
+        }
+    }
 }
 
 // Called at the start of the parse and after every token.
