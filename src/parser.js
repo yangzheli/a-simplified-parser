@@ -6,18 +6,55 @@ export class Parser {
 
     this.inputLen = input.length;
 
+    // next token
+    this.lookahead = null;
+
     // The current position of the input
     this.pos = 0;
 
     // The current line of the input
     this.line = 0;
+
+    // esprima.js
+    // Operator precedence
+    this.operatorPrecedence = {
+      ')': 0,
+      ';': 0,
+      ',': 0,
+      '=': 0,
+      ']': 0,
+      '||': 1,
+      '&&': 2,
+      '|': 3,
+      '^': 4,
+      '&': 5,
+      '==': 6,
+      '!=': 6,
+      '===': 6,
+      '!==': 6,
+      '<': 7,
+      '>': 7,
+      '<=': 7,
+      '>=': 7,
+      '<<': 8,
+      '>>': 8,
+      '>>>': 8,
+      '+': 9,
+      '-': 9,
+      '*': 11,
+      '/': 11,
+      '%': 11
+    };
+
+    this.nextToken();
   }
 }
 
 Parser.prototype.parseProgram = function () {
   const program = {
     type: SyntaxTypes.Program,
-    body: this.parseSourceElements()
+    body: this.parseSourceElements(),
+    sourceType: 'script'
   };
   return program;
 }
@@ -26,7 +63,7 @@ Parser.prototype.parseSourceElements = function () {
   let sourceElements = [];
 
   while (this.pos < this.inputLen) {
-    let token = this.readToken();
+    let token = this.nextToken();
     let sourceElement = this.parseStatement(token);
     sourceElements.push(sourceElement);
   }

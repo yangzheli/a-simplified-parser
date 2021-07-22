@@ -10,6 +10,16 @@ export class AssignmentExpression {
   }
 }
 
+export class BinaryExpression {
+  constructor(operator, left, right) {
+    const logical = operator === '||' || operator === '&&';
+    this.type = logical ? SyntaxTypes.LogicalExpression : SyntaxTypes.BinaryExpression;
+    this.operator = operator;
+    this.left = left;
+    this.right = right;
+  }
+}
+
 export class ConditionalExpression {
   constructor(test, consequent, alternate) {
     this.type = SyntaxTypes.ConditionalExpression;

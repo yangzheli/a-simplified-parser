@@ -24,6 +24,7 @@ export const SyntaxTypes = {
     EmptyStatement: 'EmptyStatement',   // ;
     BinaryExpression: 'BinaryExpression',   // typeof instanceof
     ExpressionStatement: 'ExpressionStatement', // ?:
+    LogicalExpression: 'LogicalExpression',
 
     // identifier
     Identifier: 'Identifier',

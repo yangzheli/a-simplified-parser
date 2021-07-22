@@ -154,9 +154,10 @@ Parser.prototype.parseTryStatement = function () {
 Parser.prototype.parseVarList = function () {
   let declarations = [];
 
-  while (this.pos < this.inputLen) {
+  declarations.push(this.parseVar());
+  while(this.match(',')){
+    this.nextToken();
     declarations.push(this.parseVar());
-    if (!this.match(',')) break;
   }
 
   return declarations;
@@ -172,6 +173,7 @@ Parser.prototype.parseVar = function () {
     this.expect('=');
     init = this.parseAssignmentExpression();
   } else if (this.match('=')) {
+    this.nextToken();
     init = this.parseAssignmentExpression();
   }
 
@@ -179,7 +181,7 @@ Parser.prototype.parseVar = function () {
 }
 
 Parser.prototype.parseVariableIdentifier = function () {
-  const token = this.readToken();
+  const token = this.nextToken();
 
   if (token.type !== TokenTypes.Identifier) {
     throw new Error();

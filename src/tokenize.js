@@ -34,11 +34,18 @@ Parser.prototype.finishToken = function (type, value) {
     return { type: type, value: value };
 }
 
+// Get next token
+Parser.prototype.nextToken = function () {
+    let token = this.lookahead;
+    this.skipSpace();
+    let next = this.readToken();
+    this.lookahead = next;
+    return token;
+}
+
 // Read a single token
 Parser.prototype.readToken = function () {
     if (this.pos >= this.inputLen) return { type: TokenTypes.EOF };
-
-    this.skipSpace();
 
     let ch = this.input[this.pos];
 
@@ -64,8 +71,8 @@ Parser.prototype.readWord = function () {
     }
     let word = this.input.slice(start, this.pos);
 
-    if (Character.isKeyWord(word)) return { type: TokenTypes.Keyword, value: word };
-    return { type: TokenTypes.Identifier, value: word };
+    if (Character.isKeyWord(word)) return this.finishToken(TokenTypes.Keyword, word);
+    return this.finishToken(TokenTypes.Identifier, word);
 }
 
 // Read a single number
@@ -94,16 +101,10 @@ Parser.prototype.readNumber = function () {
 
     if (ch === '\.') {
         ++this.pos;
-        return {
-            type: TokenTypes.NumericLiteral,
-            value: '.'
-        };
+        return this.finishToken(TokenTypes.NumericLiteral, '.')
     }
 
-    return {
-        type: TokenTypes.NumericLiteral,
-        value: number
-    }
+    return this.finishToken(TokenTypes.NumericLiteral, parseInt(number));
 }
 
 // Read s string
@@ -117,28 +118,19 @@ Parser.prototype.readPunctuator = function () {
 
     if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === ';' || ch === ',') {
         ++this.pos;
-        return {
-            type: TokenTypes.Punctuator,
-            value: ch
-        }
+        return this.finishToken(TokenTypes.Punctuator, ch);
     }
 
     let ch2 = this.input[this.pos + 1];
     if (ch === '\.' && !Character.isDecimalDigit(ch2)) {
         ++this.pos;
-        return {
-            type: TokenTypes.Punctuator,
-            value: ch
-        }
+        return this.finishToken(TokenTypes.Punctuator, ch);
     }
 
     // 1-character punctuators
     if ('[]<>+-*%&|^!~?:=/'.indexOf(ch) !== -1) {
         ++this.pos;
-        return {
-            type: TokenTypes.Punctuator,
-            value: ch
-        }
+        return this.finishToken(TokenTypes.Punctuator, ch);
     }
 }
 
