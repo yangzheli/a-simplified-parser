@@ -8,7 +8,8 @@ export const TokenTypes = {
     NullLiteral: 'NullLiteral',
     NumericLiteral: 'NumericLiteral',
     Punctuator: 'Punctuator',
-    StringLiteral: 'StringLiteral'
+    RegexpLiteral: 'RegexpLiteral',
+    StringLiteral: 'StringLiteral',
 }
 
 // Types after parse

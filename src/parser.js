@@ -1,4 +1,4 @@
-import { SyntaxTypes } from "./type.js"
+import { SyntaxTypes, TokenTypes } from "./type.js"
 
 export class Parser {
   constructor(input) {
@@ -62,8 +62,8 @@ Parser.prototype.parseProgram = function () {
 Parser.prototype.parseSourceElements = function () {
   let sourceElements = [];
 
-  while (this.pos < this.inputLen) {
-    let token = this.nextToken();
+  while (this.lookahead.type != TokenTypes.EOF) {
+    let token = this.lookahead;
     let sourceElement = this.parseStatement(token);
     sourceElements.push(sourceElement);
   }

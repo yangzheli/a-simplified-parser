@@ -86,7 +86,45 @@ Parser.prototype.readNumber = function () {
         // Octal number starts with '0' '0o' or '0O'
         // Binary number starts with '0b' or '0B'
         if (ch === '0') {
-            return;
+            number += this.input[this.pos++];
+            ch = this.input[this.pos];
+            if (ch === 'x' || ch === 'X') { // Hex number
+                number += this.input[this.pos++];
+                while (this.pos < this.inputLen) {
+                    ch = this.input[this.pos];
+                    if (!Character.isHexDigit(ch)) {
+                        break;
+                    }
+                    number += this.input[this.pos++];
+                }
+                return this.finishToken(TokenTypes.NumericLiteral, parseInt(number, 16));
+            } else if (ch === 'o' || ch === 'O' || Character.isOctalDigit(ch)) {   // Octal number
+                if (ch === 'o' || ch === 'O') {
+                    number += this.input[this.pos++];
+                }
+                while (this.pos < this.inputLen) {
+                    ch = this.input[this.pos];
+                    if (!Character.isOctalDigit(ch)) {
+                        break;
+                    }
+                    number += this.input[this.pos++];
+                }
+                return this.finishToken(TokenTypes.NumericLiteral, parseInt(number, 8));
+            } else if (ch === 'b' || ch === 'B') {   // Binary number
+                number += this.input[this.pos++];
+                while (this.pos < this.inputLen) {
+                    ch = this.input[this.pos];
+                    if (!Character.isBinaryDigit(ch)) {
+                        break;
+                    }
+                    number += this.input[this.pos++];
+                }
+                return this.finishToken(TokenTypes.NumericLiteral, parseInt(number, 2));
+            }
+
+            if (Character.isDecimalDigit(ch)) {
+                throw new Error();
+            }
         }
 
         // Decimal number
@@ -100,11 +138,32 @@ Parser.prototype.readNumber = function () {
     }
 
     if (ch === '\.') {
-        ++this.pos;
-        return this.finishToken(TokenTypes.NumericLiteral, '.')
+        number += this.input[this.pos++];
+        while (this.pos < this.inputLen) {
+            ch = this.input[this.pos];
+            if (!Character.isDecimalDigit(ch)) {
+                break;
+            }
+            number += this.input[this.pos++];
+        }
     }
 
-    return this.finishToken(TokenTypes.NumericLiteral, parseInt(number));
+    if (ch === 'e' || ch === 'E') {
+        number += this.input[this.pos++];
+        ch = this.input[this.pos];
+        if (ch === '+' || ch === '-') {
+            number += this.input[this.pos++];
+        }
+        while (this.pos < this.inputLen) {
+            ch = this.input[this.pos];
+            if (!Character.isDecimalDigit(ch)) {
+                break;
+            }
+            number += this.input[this.pos++];
+        }
+    }
+
+    return this.finishToken(TokenTypes.NumericLiteral, parseFloat(number));
 }
 
 // Read s string
@@ -115,6 +174,11 @@ Parser.prototype.readString = function () {
 // Read punctuators
 Parser.prototype.readPunctuator = function () {
     let ch = this.input[this.pos];
+
+    if (ch === '/') {
+        ++this.pos;
+        return this.readRegexp();
+    }
 
     if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === ';' || ch === ',') {
         ++this.pos;
@@ -128,9 +192,46 @@ Parser.prototype.readPunctuator = function () {
     }
 
     // 1-character punctuators
-    if ('[]<>+-*%&|^!~?:=/'.indexOf(ch) !== -1) {
+    if ('[]<>+-*%&|^!~?:='.indexOf(ch) !== -1) {
         ++this.pos;
         return this.finishToken(TokenTypes.Punctuator, ch);
+    }
+}
+
+// Read a regular expression. Some context-awareness is necessary.
+// Since a '/' inside a '[]' set does not end the expression.
+Parser.prototype.readRegexp = function () {
+    let start = this.pos;
+    let isEscape = false, inClass = false;
+    while (this.pos < this.inputLen) {
+        let ch = this.input[this.pos];
+        if (!isEscape) {
+            if (ch === '[') inClass = true;
+            else if (ch === ']' && inClass) inClass = false;
+            else if (ch === '/' && !inClass) break;
+            isEscape = ch === '\\';
+        } else isEscape = false;
+        ++this.pos;
+    }
+    let pattern = this.input.slice(start, this.pos++);
+
+    // Read the regular expression flags
+    const validFlags = /^[gimsuy]*$/;
+    let flags = this.readWord().value;
+    if (!validFlags.test(flags)) throw new Error();
+
+    let reg = null;
+    try {
+        reg = new RegExp(pattern, flags);
+    } catch (err) {
+        throw new Error();
+    }
+
+    return {
+        type: TokenTypes.RegexpLiteral, value: reg, regex: {
+            pattern: pattern,
+            flags: flags
+        }
     }
 }
 

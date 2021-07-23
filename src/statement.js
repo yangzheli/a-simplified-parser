@@ -63,8 +63,12 @@ Parser.prototype.parseStatement = function (token) {
     }
   }
 
-  return;
+  // If the statement does not start with a keyword or a brace, 
+  // it's an ExpressionStatement or LabeledStatement.
+  return this.parseExpressionStatement();
 }
+
+
 
 // Break statement
 Parser.prototype.parseBreakStatement = function () {
@@ -150,12 +154,21 @@ Parser.prototype.parseTryStatement = function () {
 
 }
 
+// Expression statement
+Parser.prototype.parseExpressionStatement = function () {
+  let expr = this.parseExpression();
+  return new Node.ExpressionStatement(expr);
+}
+
+
 // Parse a list of variable declarations
 Parser.prototype.parseVarList = function () {
+  this.expectKeyword('var');
+
   let declarations = [];
 
   declarations.push(this.parseVar());
-  while(this.match(',')){
+  while (this.match(',')) {
     this.nextToken();
     declarations.push(this.parseVar());
   }

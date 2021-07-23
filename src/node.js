@@ -29,6 +29,13 @@ export class ConditionalExpression {
   }
 }
 
+export class ExpressionStatement {
+  constructor(expression) {
+    this.type = SyntaxTypes.ExpressionStatement;
+    this.expression = expression;
+  }
+}
+
 export class Identifier {
   constructor(name) {
     this.type = SyntaxTypes.Identifier;
@@ -41,6 +48,15 @@ export class Literal {
     this.type = SyntaxTypes.Literal;
     this.value = value;
     this.raw = raw;
+  }
+}
+
+export class RegexLiteral {
+  constructor(value, raw, regex) {
+    this.type = SyntaxTypes.Literal;
+    this.value = value;
+    this.raw = raw;
+    this.regex = regex;
   }
 }
 

@@ -2,10 +2,6 @@ import { Parser } from './parser.js'
 import { SyntaxTypes, TokenTypes } from './type.js';
 import * as Node from './node.js'
 
-// 操作符优先级
-const OperatorPrecedence = {
-}
-
 // 赋值语句
 Parser.prototype.parseAssignmentExpression = function () {
   let left = this.parseConditionalExpression();
@@ -16,6 +12,11 @@ Parser.prototype.parseAssignmentExpression = function () {
   }
 
   return left;
+}
+
+Parser.prototype.parseExpression = function(){
+  let expr = this.parseConditionalExpression();
+  return expr;
 }
 
 // ?: 操作符
@@ -73,6 +74,8 @@ Parser.prototype.parseAtomicExpression = function () {
     case TokenTypes.StringLiteral:
     case TokenTypes.NumericLiteral:
       return this.parseLiteral(token.value, String(token.value));
+    case TokenTypes.RegexpLiteral:
+      return this.parseRegexLiteral(String(token.value), String(token.value), token.regex);
     default:
       throw new Error();
   }
@@ -80,4 +83,8 @@ Parser.prototype.parseAtomicExpression = function () {
 
 Parser.prototype.parseLiteral = function (value, raw) {
   return new Node.Literal(value, raw);
+}
+
+Parser.prototype.parseRegexLiteral = function (value, raw, regex) {
+  return new Node.RegexLiteral(value, raw, regex);
 }

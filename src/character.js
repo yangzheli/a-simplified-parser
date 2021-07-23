@@ -17,6 +17,7 @@ const Regex = {
   DecimalDigit: /[0-9]/,
   OctalDigit: /[0-7]/,
   HexDigit: /[0-9A-Fa-f]/,
+  BinaryDigit: /[0-1]/,
 
   NonAsciiWhitespace: /[\u1680\u180E\u2000-\u200A\u202F\u205F\u3000\uFEFF]/
 }
@@ -66,6 +67,10 @@ export const Character = {
 
   isHexDigit: function (ch) {
     return Regex.HexDigit.test(ch);
+  },
+
+  isBinaryDigit:function(ch){
+    return Regex.BinaryDigit.test(ch);
   },
 
   isLineTerminator: function (ch) {
