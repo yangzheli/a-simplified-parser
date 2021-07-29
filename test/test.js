@@ -230,7 +230,7 @@ test("02", {
   "sourceType": "script"
 })
 
-test("012",{
+test("012", {
   "type": "Program",
   "body": [
     {
@@ -245,7 +245,7 @@ test("012",{
   "sourceType": "script"
 })
 
-test("0012",{
+test("0012", {
   "type": "Program",
   "body": [
     {
@@ -259,6 +259,57 @@ test("0012",{
   ],
   "sourceType": "script"
 })
+
+test("09.5", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "Literal",
+        "value": 9.5,
+        "raw": "09.5"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+// string 
+test("\"Hello\"", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "Literal",
+        "value": "Hello",
+        "raw": "\"Hello\""
+      },
+      "directive": "Hello"
+    }
+  ],
+  "sourceType": "script"
+})
+
+"\"\\n\\r\\t\\v\\b\\f\\\\\\'\\\"\\0\""
+"\"\\u0061\""
+"\"\\x61\""
+"\"Hello\\nworld\""
+"\"Hello\\\nworld\""
+"\"Hello\\\u2028world\""
+"\"Hello\\\u2029world\""
+"\"Hello\\02World\""
+"\"Hello\\012World\""
+"\"Hello\\122World\""
+"\"Hello\\0122World\""
+"\"Hello\\312World\""
+"\"Hello\\412World\""
+"\"Hello\\812World\""
+"\"Hello\\712World\""
+"\"Hello\\0World\""
+"\"Hello\\\r\nworld\""
+"\"Hello\\1World\""
 
 // variable declaration
 test("var x", {

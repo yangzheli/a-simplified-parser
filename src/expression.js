@@ -14,7 +14,7 @@ Parser.prototype.parseAssignmentExpression = function () {
   return left;
 }
 
-Parser.prototype.parseExpression = function(){
+Parser.prototype.parseExpression = function () {
   let expr = this.parseConditionalExpression();
   return expr;
 }
@@ -73,9 +73,9 @@ Parser.prototype.parseAtomicExpression = function () {
   switch (token.type) {
     case TokenTypes.StringLiteral:
     case TokenTypes.NumericLiteral:
-      return this.parseLiteral(token.value, String(token.value));
+      return this.parseLiteral(token.value, token.raw);
     case TokenTypes.RegexpLiteral:
-      return this.parseRegexLiteral(String(token.value), String(token.value), token.regex);
+      return this.parseRegexLiteral(token.value, token.raw, token.regex);
     default:
       throw new Error();
   }

@@ -12,6 +12,9 @@ export class Parser {
     // The current position of the input
     this.pos = 0;
 
+    // Its start and end offset
+    this.start = this.end = this.pos;
+
     // The current line of the input
     this.line = 0;
 

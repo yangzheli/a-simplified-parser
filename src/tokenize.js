@@ -30,8 +30,10 @@ export class Token {
 }
 
 // Called at the end of every token
-Parser.prototype.finishToken = function (type, value) {
-    return { type: type, value: value };
+Parser.prototype.finishToken = function (type, value, regex) {
+    this.end = this.pos;
+    const raw = this.input.slice(this.start, this.end);
+    return regex ? { type: type, value: value, raw: raw, regex: regex } : { type: type, value: value, raw: raw };
 }
 
 // Get next token
@@ -46,6 +48,8 @@ Parser.prototype.nextToken = function () {
 // Read a single token
 Parser.prototype.readToken = function () {
     if (this.pos >= this.inputLen) return { type: TokenTypes.EOF };
+
+    this.start = this.pos;
 
     let ch = this.input[this.pos];
 
@@ -226,13 +230,13 @@ Parser.prototype.readRegexp = function () {
     } catch (err) {
         throw new Error();
     }
+    reg = String(reg);
 
-    return {
-        type: TokenTypes.RegexpLiteral, value: reg, regex: {
-            pattern: pattern,
-            flags: flags
-        }
-    }
+    const regex = {
+        pattern: pattern,
+        flags: flags
+    };
+    return this.finishToken(TokenTypes.RegexpLiteral, reg, regex);
 }
 
 // Called at the start of the parse and after every token.
