@@ -29,6 +29,14 @@ export class ConditionalExpression {
   }
 }
 
+export class Directive {
+  constructor(expression, directive) {
+    this.type = SyntaxTypes.ExpressionStatement;
+    this.expression = expression;
+    this.directive = directive;
+  }
+}
+
 export class ExpressionStatement {
   constructor(expression) {
     this.type = SyntaxTypes.ExpressionStatement;

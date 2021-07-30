@@ -65,7 +65,7 @@ Parser.prototype.parseStatement = function (token) {
 
   // If the statement does not start with a keyword or a brace, 
   // it's an ExpressionStatement or LabeledStatement.
-  return this.parseExpressionStatement();
+  return this.parseExpressionStatement(token);
 }
 
 
@@ -155,8 +155,9 @@ Parser.prototype.parseTryStatement = function () {
 }
 
 // Expression statement
-Parser.prototype.parseExpressionStatement = function () {
+Parser.prototype.parseExpressionStatement = function (token) {
   let expr = this.parseExpression();
+  if (token.type === TokenTypes.StringLiteral) return new Node.Directive(expr, token.raw.slice(1, -1));
   return new Node.ExpressionStatement(expr);
 }
 

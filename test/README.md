@@ -1,36 +1,36 @@
-## 测试用例
+# 测试用例
 
-测试用例来自 [esprima](https://github.com/jquery/esprima/tree/main/test/fixtures)
+大部分测试用例来自 [esprima](https://github.com/jquery/esprima/tree/main/test/fixtures)
 
 - [Expression](#Expression)
-  - number
-  - string
-  - regexp
-  - array
-  - object
-  - other
+  - [number](#number)
+  - [string](#string)
+  - [regexp](#regexp)
+  - [array](#array)
+  - [object](#object)
+  - [other](#other)
 - [Operator](#Operator)
-  - unary
-  - binary
-  - ternary 
-  - brace
-  - bracket 
-  - parenthesis
-  - dot
-  - semicolon
-  - complex 
+  - [unary](#unary)
+  - [binary](#binary)
+  - [ternary](#ternary) 
+  - [brace](#brace)
+  - [bracket](#bracket) 
+  - [parenthesis](#parenthesis)
+  - [dot](#dot)
+  - [semicolon](#semicolon)
+  - [complex](#complex) 
 - [Keyword](#Keyword)
-  - new
-  - var
-  - if 
-  - for
-  - do while
-  - switch case 
-  - function
+  - [new](#new)
+  - [var](#var)
+  - [if](#if) 
+  - [for](#for)
+  - [do while](#do-while)
+  - [switch case](#switch-case) 
+  - [function](#function)
   
-### Expression
+## Expression
 
-* number
+### number
 
 ```javascript
 0 .14 3.14159 0008 09 09.5  // 十进制
@@ -41,7 +41,7 @@
 // ES2021 新特性，允许 _ 作为数字分隔符
 ``` 
 
-* string
+### string
 
 ```javascript
 "Hello"
@@ -59,7 +59,7 @@ var source = '"\\u0061"';
 "Hello\1World"
 ```
 
-* regexp
+### regexp
 
 ```javascript
 // valid
@@ -81,7 +81,7 @@ var x = /[\u0063-b]/u;
 var x = /[\u{63}-b]/u;
 ```
 
-* array
+### array
 
 ```javascript
 x = []
@@ -97,7 +97,7 @@ var source = 'T\u200C = []';
 var source = '\u2163\u2161\u200A=\u2009[]';
 ```
 
-* object
+### object
 
 ```javascript
 x = {}
@@ -128,7 +128,7 @@ x = { get: 42 }
 x = { set: 43 }
 ```
 
-* other 
+### other 
 
 ```javascript
 this 
@@ -137,9 +137,11 @@ null
 (1 + 2 ) * 3
 ```
 
-### Operator
+## Operator
 
-* unary (一元运算符)
+### unary 
+
+一元运算符，包括 `++ --`
 
 ```javascript
 x++
@@ -163,14 +165,16 @@ delete x
 typeof x
 ```
 
-* binary (二元运算符)
+### binary 
+
+二元运算符，包括 `+ -`
 
 ```javascript
+x + y
+x - y
 x * y
 x / y
 x % y
-x + y
-x - y
 x << y
 x >> y
 x >>> y
@@ -230,7 +234,9 @@ x ^= 42
 x |= 42
 ```
 
-* ternary (三元运算符)
+### ternary 
+
+三元运算符，包括 `?:`
 
 ```javascript
 y ? 1 : 2
@@ -238,7 +244,9 @@ x && y ? 1 : 2
 x = (0) ? 1 : 2
 ```
 
-* brace (`{}`)
+### brace 
+
+大括号 - `{ }`
 
 ```javascript
 { foo }
@@ -246,11 +254,17 @@ x = (0) ? 1 : 2
 {}
 ```
 
-* bracket (`[]`)
+### bracket 
 
-* parenthesis (`()`)
+中括号 - `[ ]`
 
-* dot (`.`)
+### parenthesis
+
+圆括号 - `( )`
+
+### dot 
+
+句号 - `.`
 
 ```javascript
 universe.milkyway
@@ -268,21 +282,25 @@ universe.false
 universe.null
 ```
 
-* semicolon (`;`)
+### semicolon 
+
+分号 - `;`
 
 ```javascript
 ;
 ```
 
-* complex (运算符组合)
+### complex 
+
+运算符组合
 
 ```javascript
 a || b && c | d ^ e & f == g < h >>> i + j * k
 ```
 
-### Keyword
+## Keyword
 
-* new 
+### new 
 
 ```javascript
 new Button
@@ -295,7 +313,7 @@ new foo.bar()
 ( new foo).bar()
 ```
 
-* var
+### var
 
 ```javascript
 var x
@@ -314,7 +332,7 @@ var x = /=([^=\\s])+/g
 var x /* comment */;
 ```
 
-* if
+### if
 
 ```javascript
 if (morning) goodMorning()
@@ -326,7 +344,7 @@ if (true) that()\n; else;
 if (true) that(); else;
 ```
 
-* for
+### for
 
 ```javascript
 for(;;);
@@ -348,7 +366,7 @@ for (var x = 42 in list) process(x);
 for (var i = function() { return 10 in [] } in list) process(x);
 ```
 
-* do while
+### do while
 
 ```javascript
 do keep(); while (true)
@@ -372,9 +390,9 @@ while (true) { break // Comment\nthere; }
 while (true) { break /* Multiline\nComment */there; }
 ```
 
-* switch case
+### switch case
 
-* function
+### function
 
 ```javascript
 function hello() { sayHi(); }

@@ -172,7 +172,65 @@ Parser.prototype.readNumber = function () {
 
 // Read s string
 Parser.prototype.readString = function () {
+    let quote = this.input[this.pos++];
+    let str = '';
+    while (this.pos < this.inputLen) {
+        let ch = this.input[this.pos++];
+        if (ch === quote) {
+            quote = '';
+            break;
+        }
+        else if (ch === '\\') {
+            str += this.readEscapedChar();
+        } else {
+            str += ch;
+        }
+    }
 
+    if (quote !== '') throw new Error();
+
+    return this.finishToken(TokenTypes.StringLiteral, str);
+}
+
+// 转义字符
+Parser.prototype.readEscapedChar = function () {
+    // 八进制转义字符
+    let octal = /^[0-7]{1,3}/.exec(this.input.slice(this.pos));
+    if (octal) {
+        octal = octal[0];
+        if (octal !== '0') {
+            // 八进制 Unicode 取值范围为 0 - 255
+            if (parseInt(octal, 8) > 255) octal = octal.slice(0, -1);
+            this.pos += octal.length;
+            return String.fromCharCode(parseInt(octal, 8));
+        }
+    }
+
+    let ch = this.input[this.pos++];
+    switch (ch) {
+        case 'b':
+            return '\b';
+        case 'f':
+            return '\f';
+        case 'n':
+            return '\n';
+        case 'r':
+            return '\r';
+        case 't':
+            return '\t';
+        case 'v':
+            return '\u000b';
+        case '0':
+            return '\0';
+        case '\'':
+            return '\'';
+        case '\"':
+            return '\"';
+        case '\\':
+            return '\\';
+        default:
+            return String.fromCharCode(ch);
+    }
 }
 
 // Read punctuators

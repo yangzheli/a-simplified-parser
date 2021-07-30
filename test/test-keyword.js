@@ -1,4 +1,6 @@
-// variable declaration
+import { test } from './test.js'
+
+// var
 test("var x", {
   "type": "Program",
   "body": [
