@@ -71,14 +71,101 @@ Parser.prototype.parseUnaryExpression = function () {
 Parser.prototype.parseAtomicExpression = function () {
   let token = this.nextToken();
   switch (token.type) {
+    case TokenTypes.Punctuator:
+      let value = token.value;
+      switch (value) {
+        case '{':
+          return this.parseObj();
+        case '[':
+          return this.parseExprList(value);
+        default:
+          throw new Error();
+      }
     case TokenTypes.StringLiteral:
     case TokenTypes.NumericLiteral:
       return this.parseLiteral(token.value, token.raw);
     case TokenTypes.RegexpLiteral:
       return this.parseRegexLiteral(token.value, token.raw, token.regex);
+    case TokenTypes.Identifier:
+      return this.parseIdentifier(token.value);
     default:
       throw new Error();
   }
+}
+
+// 解析对象
+Parser.prototype.parseObj = function () {
+  let properties = [];
+
+  while (!this.match('}')) {
+    properties.push(this.parseObjProperty());
+    if (!this.match('}')) this.expect(',');
+  }
+  this.expect('}');
+
+  return new Node.ObjectExpression(properties);
+}
+
+// 解析对象属性
+Parser.prototype.parseObjProperty = function () {
+  let kind, key, value;
+  let computed = false, method = false, shorthand = false;
+
+  let token = this.lookahead;
+  switch (token.type) {
+    case TokenTypes.StringLiteral:
+    case TokenTypes.NumericLiteral:
+      key = new Node.Literal(token.value, token.raw);
+      break;
+    case TokenTypes.Identifier:
+    case TokenTypes.Keyword:
+      key = new Node.Identifier(token.value);
+      break;
+    default:
+      throw new Error();
+  }
+  kind = 'init';
+  this.nextToken();
+
+  if (this.match(':')) {
+    this.nextToken();
+    value = this.parseAtomicExpression();
+  }
+
+  return new Node.Property(kind, key, value, computed, method, shorthand);
+}
+
+// 解析标识符
+Parser.prototype.parseIdentifier = function (value) {
+  if (this.match('=')) {
+    this.nextToken();
+    let right = this.parseAssignmentExpression();
+    return new Node.AssignmentExpression('=', new Node.Identifier(value), right);
+  } else {
+    return new Node.Identifier(value);
+  }
+}
+
+// 解析以逗号分隔的表达式列表
+Parser.prototype.parseExprList = function (value) {
+  const close = ']';
+  let elements = [];
+
+  while (!this.match(close)) {
+    if (this.match(',')) {
+      this.nextToken();
+      elements.push(null);
+    } else if (this.match('...')) {
+
+    } else {
+      let element = this.parseAtomicExpression();
+      elements.push(element);
+      if (!this.match(close)) this.expect(',');
+    }
+  }
+  this.expect(close);
+
+  return new Node.ArrayExpression(elements);
 }
 
 Parser.prototype.parseLiteral = function (value, raw) {

@@ -1,5 +1,12 @@
 import { SyntaxTypes } from "./type.js";
 
+export class ArrayExpression {
+  constructor(elements) {
+    this.type = SyntaxTypes.ArrayExpression;
+    this.elements = elements;
+  }
+}
+
 // esprima.js 
 export class AssignmentExpression {
   constructor(operator, left, right) {
@@ -17,6 +24,13 @@ export class BinaryExpression {
     this.operator = operator;
     this.left = left;
     this.right = right;
+  }
+}
+
+export class BlockStatement {
+  constructor(body) {
+    this.type = SyntaxTypes.BlockStatement;
+    this.body = body;
   }
 }
 
@@ -56,6 +70,25 @@ export class Literal {
     this.type = SyntaxTypes.Literal;
     this.value = value;
     this.raw = raw;
+  }
+}
+
+export class ObjectExpression {
+  constructor(properties) {
+    this.type = SyntaxTypes.ObjectExpression;
+    this.properties = properties;
+  }
+}
+
+export class Property {
+  constructor(kind, key, value, computed, method, shorthand) {
+    this.type = SyntaxTypes.Property;
+    this.kind = kind;
+    this.key = key;
+    this.value = value;
+    this.computed = computed;
+    this.method = method;
+    this.shorthand = shorthand;
   }
 }
 

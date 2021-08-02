@@ -18,7 +18,10 @@ export const SyntaxTypes = {
 
     Literal: 'Literal',  // number string boolean null undefined regexp
 
+    Property:'Property',    // 对象属性
+
     // punctuations
+    ObjectExpression: 'ObjectExpression',   // {}
     BlockStatement: 'BlockStatement',    // {}
     ArrayExpression: 'ArrayExpression', // []
     AssignmentExpression: 'AssignmentExpression',    // =

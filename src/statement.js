@@ -11,7 +11,7 @@ Parser.prototype.parseStatement = function (token) {
       case ';':
         return;
       case '{':
-        return;
+        return this.parseBlockStatement();
       case '(':
         return;
       default:
@@ -68,7 +68,16 @@ Parser.prototype.parseStatement = function (token) {
   return this.parseExpressionStatement(token);
 }
 
+// Block statement
+Parser.prototype.parseBlockStatement = function(){
+  this.expect('{');
 
+  while(!this.match('}')){
+
+  }
+
+  return new Node.BlockStatement();
+}
 
 // Break statement
 Parser.prototype.parseBreakStatement = function () {

@@ -2,7 +2,7 @@ import { Parser } from './parser.js'
 import { TokenTypes } from './type.js'
 
 // Except the next token matches the specified punctuator
-Parser.prototype.expectKeyword = function (value) {
+Parser.prototype.expect = function (value) {
   const token = this.nextToken();
   if (token.type !== TokenTypes.Punctuator || token.value !== value)
     throw new Error();

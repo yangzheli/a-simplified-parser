@@ -685,3 +685,336 @@ test("日本語 = []", {
 // var source = '\u2163\u2161\u200A=\u2009[]';
 
 // object
+test("x = {}", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": []
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": []
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { answer: 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "answer"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { if: 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "if"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { true: 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "true"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { false: 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "false"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { null: 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "null"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { \"answer\": 42 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Literal",
+                "value": "answer",
+                "raw": "\"answer\""
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 42,
+                "raw": "42"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { x: 1, x: 2 }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "x"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 1,
+                "raw": "1"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            },
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "x"
+              },
+              "computed": false,
+              "value": {
+                "type": "Literal",
+                "value": 2,
+                "raw": "2"
+              },
+              "kind": "init",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
