@@ -1018,3 +1018,19 @@ test("x = { x: 1, x: 2 }", {
   ],
   "sourceType": "script"
 })
+
+// x = { get width() { return m_width } }
+// x = { get undef() {} }
+// x = { get if() {} }
+// x = { get true() {} }
+// x = { get false() {} }
+// x = { get null() {} }
+// x = { get "undef"() {} }
+// x = { get 10() {} }
+// x = { set width(w) { m_width = w } }
+// x = { set if(w) { m_if = w } }
+// x = { set true(w) { m_true = w } }
+// x = { set false(w) { m_false = w } }
+// x = { set null(w) { m_null = w } }
+// x = { set "null"(w) { m_null = w } }
+// x = { set 10(w) { m_null = w } }
