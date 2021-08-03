@@ -21,7 +21,7 @@ Parser.prototype.parseExpression = function () {
 
 // ?: 操作符
 Parser.prototype.parseConditionalExpression = function () {
-  let expr = this.parseExprOps();
+  let expr = this.parseUnaryExpression();
 
   if (this.match('?')) {
     let consequent = this.parseAtomicExpression();
@@ -45,30 +45,53 @@ Parser.prototype.binaryPrecedence = function (token) {
   if (type === TokenTypes.Punctuator) {
     precedence = this.operatorPrecedence[op] || 0;
   } else if (type === TokenTypes.Keyword) {
-    precedence = op === 'instanceof' ? 7 : 0;
+    precedence = (op === 'instanceof' || op === 'in') ? 7 : 0;
   }
   return precedence;
 }
 
 // 运算符优先级
-Parser.prototype.parseExprOp = function (expr) {
+Parser.prototype.parseExprOp = function (left) {
   let operator = this.lookahead;
   if (this.binaryPrecedence(operator)) {
-    let token = this.nextToken();
+    this.nextToken();
     let right = this.parseAtomicExpression();
-    return new Node.BinaryExpression(operator.value, expr, right);
+    let node = new Node.BinaryExpression(operator.value, left, right);
+    // 递归解析后续的运算符
+    return this.parseExprOp(node);
   }
-  return expr;
+  return left;
 }
 
 // 一元运算符
 Parser.prototype.parseUnaryExpression = function () {
-  // 前缀
+  let token = this.lookahead;
+  if (token.prefix) {
+    let operator = token.value;
+    this.nextToken();
+    let expr = this.parseUnaryExpression();
+    // UpdateExpression
+    if (operator === '++' || operator === '--') return new Node.UpdateExpression(operator, expr, true);
+    // UnaryExpression
+    return new Node.UnaryExpression(operator, expr);
+  }
+
+  let expr = this.parseExprOps();
   // 后缀
+  if (this.match('++') || this.match('--')) {
+    let operator = this.nextToken().value;
+    expr = new Node.UpdateExpression(operator, expr, false)
+  }
+
+  return expr;
 }
 
 // Parse an atomic expression
 Parser.prototype.parseAtomicExpression = function () {
+  if (this.lookahead.type === TokenTypes.StringLiteral || this.lookahead.type === TokenTypes.NumericLiteral ||
+    this.lookahead.type === TokenTypes.Identifier)
+    this.context.allowRegexp = false;
+
   let token = this.nextToken();
   switch (token.type) {
     case TokenTypes.Punctuator:

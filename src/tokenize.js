@@ -33,7 +33,18 @@ export class Token {
 Parser.prototype.finishToken = function (type, value, regex) {
     this.end = this.pos;
     const raw = this.input.slice(this.start, this.end);
-    return regex ? { type: type, value: value, raw: raw, regex: regex } : { type: type, value: value, raw: raw };
+
+    // 标点符号或者关键字是否为前缀
+    if (value === '++' || value === '--' || value === '+' ||
+        value === '-' || value === '!' || value === '~' ||
+        value === 'typeof' || value === 'void' || value === 'delete')
+        return { type: type, value: value, raw: raw, prefix: true };
+
+    // 正则表达式
+    if (regex)
+        return { type: type, value: value, raw: raw, regex: regex }
+
+    return { type: type, value: value, raw: raw };
 }
 
 // Get next token
@@ -237,7 +248,7 @@ Parser.prototype.readEscapedChar = function () {
 Parser.prototype.readPunctuator = function () {
     let ch = this.input[this.pos];
 
-    if (ch === '/') {
+    if (ch === '/' && this.context.allowRegexp) {
         ++this.pos;
         return this.readRegexp();
     }
@@ -253,8 +264,32 @@ Parser.prototype.readPunctuator = function () {
         return this.finishToken(TokenTypes.Punctuator, ch);
     }
 
+    // 4-character punctuators
+    let str = this.input.substr(this.pos, 4);
+    if (str === '>>>=') {
+        this.pos += 4;
+        return this.finishToken(TokenTypes.Punctuator, str);
+    }
+
+    // 3-character punctuators
+    str = str.substr(0, 3);
+    if (str === '===' || str === '!==' || str === '>>>' || str === '<<=' || str === '>>=' || str === '**=') {
+        this.pos += 3;
+        return this.finishToken(TokenTypes.Punctuator, str);
+    }
+
+    // 2-character punctuators
+    str = str.substr(0, 2);
+    if (str === '&&' || str === '||' || str === '==' || str === '!=' || str === '+=' || str === '-=' ||
+        str === '*=' || str === '/=' || str === '++' || str === '--' || str === '<<' || str === '>>' ||
+        str === '&=' || str === '|=' || str === '^=' || str === '%=' || str === '<=' || str === '>=' ||
+        str === '=>' || str === '**') {
+        this.pos += 2;
+        return this.finishToken(TokenTypes.Punctuator, str);
+    }
+
     // 1-character punctuators
-    if ('[]<>+-*%&|^!~?:='.indexOf(ch) !== -1) {
+    if ('[]<>+-*%&|^!~?:=/'.indexOf(ch) !== -1) {
         ++this.pos;
         return this.finishToken(TokenTypes.Punctuator, ch);
     }

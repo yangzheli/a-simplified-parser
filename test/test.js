@@ -1,5 +1,7 @@
 import { parse } from '../src/index.js'
 
+export let count = 0; // 总测试案例数
+
 export function test(input, except) {
   const ast = parse(input);
   const result = compare(ast, except);
@@ -7,6 +9,7 @@ export function test(input, except) {
     console.log("case '" + input + "': " + result);
   else
     console.log("case '" + input + "': " + result + "\n" + JSON.stringify(ast));
+  ++count;
 }
 
 function compare(s, t) {

@@ -29,6 +29,8 @@ export const SyntaxTypes = {
     BinaryExpression: 'BinaryExpression',   // typeof instanceof
     ExpressionStatement: 'ExpressionStatement', // ?:
     LogicalExpression: 'LogicalExpression',
+    UpdateExpression: 'UpdateExpression',   // ++ -- 
+    UnaryExpression: 'UnaryExpression', // ++ -- + - 
 
     // identifier
     Identifier: 'Identifier',

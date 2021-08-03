@@ -1,5 +1,6 @@
 import { test } from './test.js'
 
+// unary
 test("x++", {
   "type": "Program",
   "body": [
@@ -360,3 +361,624 @@ test("typeof x", {
   ],
   "sourceType": "script"
 })
+
+// binary
+test("x + y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "+",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x - y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "-",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x * y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "*",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x / y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "/",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x % y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "%",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x << y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "<<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x >> y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": ">>",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x >>> y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": ">>>",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x < y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x > y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": ">",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x <= y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "<=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x >= y", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": ">=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x in y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "in",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x instanceof y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "instanceof",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x < y < z",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "BinaryExpression",
+          "operator": "<",
+          "left": {
+            "type": "Identifier",
+            "name": "x"
+          },
+          "right": {
+            "type": "Identifier",
+            "name": "y"
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "z"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x == y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "==",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x != y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "!=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x === y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "===",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x !== y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x & y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "&",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x ^ y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "^",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x | y",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "|",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "y"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x + y + z",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "+",
+        "left": {
+          "type": "BinaryExpression",
+          "operator": "+",
+          "left": {
+            "type": "Identifier",
+            "name": "x"
+          },
+          "right": {
+            "type": "Identifier",
+            "name": "y"
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "z"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x - y + z",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "+",
+        "left": {
+          "type": "BinaryExpression",
+          "operator": "-",
+          "left": {
+            "type": "Identifier",
+            "name": "x"
+          },
+          "right": {
+            "type": "Identifier",
+            "name": "y"
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "z"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x + y - z",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "BinaryExpression",
+        "operator": "-",
+        "left": {
+          "type": "BinaryExpression",
+          "operator": "+",
+          "left": {
+            "type": "Identifier",
+            "name": "x"
+          },
+          "right": {
+            "type": "Identifier",
+            "name": "y"
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "name": "z"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+// x - y - z
+// x + y * z
+// x + y / z
+// x - y % z
+// x * y * z
+// x * y / z
+// x * y % z
+// x % y * z
+// x << y << z
+// x | y | z
+// x & y & z
+// x ^ y ^ z
+// x & y | z
+// x | y ^ z
+// x | y & z
+// x || y
+// x && y
+// x || y || z
+// x && y && z
+// x || y && z
+// x || y ^ z
+// y ? 1 : 2
+// x && y ? 1 : 2
+// x = 42
+// eval = 42
+// arguments = 42
+// x *= 42
+// x /= 42
+// x %= 42
+// x += 42
+// x -= 42
+// x <<= 42
+// x >>= 42
+// x >>>= 42
+// x &= 42
+// x ^= 42
+// x |= 42

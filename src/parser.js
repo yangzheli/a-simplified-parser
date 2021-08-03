@@ -18,6 +18,11 @@ export class Parser {
     // The current line of the input
     this.line = 0;
 
+    // context
+    this.context = {
+      allowRegexp: true
+    }
+
     // esprima.js
     // Operator precedence
     this.operatorPrecedence = {

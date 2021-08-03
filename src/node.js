@@ -101,6 +101,24 @@ export class RegexLiteral {
   }
 }
 
+export class UnaryExpression {
+  constructor(operator, argument) {
+    this.type = SyntaxTypes.UnaryExpression;
+    this.operator = operator;
+    this.argument = argument;
+    this.prefix = true;
+  }
+}
+
+export class UpdateExpression {
+  constructor(operator, argument, prefix) {
+    this.type = SyntaxTypes.UpdateExpression;
+    this.operator = operator;
+    this.argument = argument;
+    this.prefix = prefix;
+  }
+}
+
 export class VariableDeclaration {
   constructor(declarations, kind) {
     this.type = SyntaxTypes.VariableDeclaration;
