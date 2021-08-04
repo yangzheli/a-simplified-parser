@@ -49,8 +49,6 @@ Parser.prototype.parseStatement = function () {
         return this.parseThrowStatement();
       case 'debugger':
         return this.parseDebuggerStatement();
-      case 'new':
-        return this.parseNewStatement();
       case 'with':
         return this.parseWithStatement();
       case 'for':
@@ -149,11 +147,6 @@ Parser.prototype.parseThrowStatement = function () {
 
 // Debugger statement
 Parser.prototype.parseDebuggerStatement = function () {
-
-}
-
-// New statement
-Parser.prototype.parseNewStatement = function () {
 
 }
 

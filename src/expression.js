@@ -113,14 +113,13 @@ Parser.prototype.parseAtomicExpression = function () {
   let token = this.nextToken();
   switch (token.type) {
     case TokenTypes.Punctuator:
-      let value = token.value;
-      switch (value) {
+      switch (token.value) {
         case '(':
           return this.parseParenExpression();
         case '{':
           return this.parseObj();
         case '[':
-          return this.parseExprList(value);
+          return this.parseExprList();
         default:
           throw new Error();
       }
@@ -131,14 +130,19 @@ Parser.prototype.parseAtomicExpression = function () {
       return this.parseRegexLiteral(token.value, token.raw, token.regex);
     case TokenTypes.Identifier:
     case TokenTypes.Keyword:
-      return this.parseIdentifier(token.value);
+      switch (token.value) {
+        case 'new':
+          return this.parseNewExpression();
+        default:
+          return this.parseIdentifier(token.value);
+      }
     default:
       throw new Error();
   }
 }
 
 // () 
-Parser.prototype.parseParenExpression = function(){
+Parser.prototype.parseParenExpression = function () {
   let expr = this.parseExpression();
   this.expect(')');
   return expr;
@@ -199,7 +203,7 @@ Parser.prototype.parseIdentifier = function (value) {
 }
 
 // 解析以逗号分隔的表达式列表
-Parser.prototype.parseExprList = function (value) {
+Parser.prototype.parseExprList = function () {
   const close = ']';
   let elements = [];
 
@@ -226,4 +230,12 @@ Parser.prototype.parseLiteral = function (value, raw) {
 
 Parser.prototype.parseRegexLiteral = function (value, raw, regex) {
   return new Node.RegexLiteral(value, raw, regex);
+}
+
+// new 
+Parser.prototype.parseNewExpression = function(){
+  console.log(this.lookahead)
+  let callee =null;
+  let args = null;
+  return new Node.NewExpression(callee,args);
 }

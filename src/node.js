@@ -52,7 +52,7 @@ export class Directive {
 }
 
 export class EmptyStatement {
-  constructor(){
+  constructor() {
     this.type = SyntaxTypes.EmptyStatement;
   }
 }
@@ -85,6 +85,14 @@ export class MemberExpression {
     this.object = object;
     this.property = property;
     this.computed = computed;
+  }
+}
+
+export class NewExpression {
+  constructor(callee, args) {
+    this.type = SyntaxTypes.NewExpression;
+    this.callee = callee;
+    this.arguments = args;
   }
 }
 
