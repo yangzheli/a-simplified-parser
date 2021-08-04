@@ -1,15 +1,17 @@
 import { parse } from '../src/index.js'
 
-export let count = 0; // 总测试案例数
+export let success = 0, failure = 0; // 成功、失败测试案例数
 
 export function test(input, except) {
   const ast = parse(input);
   const result = compare(ast, except);
-  if (result)
+  if (result) {
     console.log("case '" + input + "': " + result);
-  else
+    ++success;
+  } else {
     console.log("case '" + input + "': " + result + "\n" + JSON.stringify(ast));
-  ++count;
+    ++failure;
+  }
 }
 
 function compare(s, t) {

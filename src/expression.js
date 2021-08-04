@@ -2,21 +2,21 @@ import { Parser } from './parser.js'
 import { SyntaxTypes, TokenTypes } from './type.js';
 import * as Node from './node.js'
 
+Parser.prototype.parseExpression = function () {
+  let expr = this.parseAssignmentExpression();
+  return expr;
+}
+
 // 赋值语句
 Parser.prototype.parseAssignmentExpression = function () {
   let left = this.parseConditionalExpression();
-  if (false) {
+  if (this.matchAssign()) {
     let operator = this.nextToken();
     let right = this.parseAssignmentExpression();
-    return new Node.AssignmentExpression(operator, left, right);
+    return new Node.AssignmentExpression(operator.value, left, right);
   }
 
   return left;
-}
-
-Parser.prototype.parseExpression = function () {
-  let expr = this.parseConditionalExpression();
-  return expr;
 }
 
 // ?: 操作符
@@ -24,6 +24,7 @@ Parser.prototype.parseConditionalExpression = function () {
   let expr = this.parseUnaryExpression();
 
   if (this.match('?')) {
+    this.nextToken();
     let consequent = this.parseAtomicExpression();
     this.expect(':');
     let alternate = this.parseAtomicExpression();
@@ -31,36 +32,6 @@ Parser.prototype.parseConditionalExpression = function () {
   }
 
   return expr;
-}
-
-// 开始解析运算符优先级
-Parser.prototype.parseExprOps = function () {
-  let expr = this.parseAtomicExpression();
-  return this.parseExprOp(expr);
-}
-
-Parser.prototype.binaryPrecedence = function (token) {
-  const type = token.type, op = token.value;
-  let precedence = 0;
-  if (type === TokenTypes.Punctuator) {
-    precedence = this.operatorPrecedence[op] || 0;
-  } else if (type === TokenTypes.Keyword) {
-    precedence = (op === 'instanceof' || op === 'in') ? 7 : 0;
-  }
-  return precedence;
-}
-
-// 运算符优先级
-Parser.prototype.parseExprOp = function (left) {
-  let operator = this.lookahead;
-  if (this.binaryPrecedence(operator)) {
-    this.nextToken();
-    let right = this.parseAtomicExpression();
-    let node = new Node.BinaryExpression(operator.value, left, right);
-    // 递归解析后续的运算符
-    return this.parseExprOp(node);
-  }
-  return left;
 }
 
 // 一元运算符
@@ -76,15 +47,62 @@ Parser.prototype.parseUnaryExpression = function () {
     return new Node.UnaryExpression(operator, expr);
   }
 
-  let expr = this.parseExprOps();
+  let expr = this.parseExprSubscripts();
   // 后缀
   if (this.match('++') || this.match('--')) {
     let operator = this.nextToken().value;
     expr = new Node.UpdateExpression(operator, expr, false)
   }
 
+  return this.parseExprOp(expr, 0);
+}
+
+// 解析 . [] subscript expressions
+Parser.prototype.parseExprSubscripts = function () {
+  let expr = this.parseAtomicExpression();
+  return this.parseSubscripts(expr);
+}
+
+// 递归解析
+Parser.prototype.parseSubscripts = function (expr) {
+  if (this.match('.')) {
+    this.nextToken();
+    let property = this.parseAtomicExpression();
+    return this.parseSubscripts(new Node.MemberExpression(expr, property, false));
+  } else if (this.match('[')) {
+    this.nextToken();
+    let property = this.parseAtomicExpression();
+    this.expect(']');
+    return this.parseSubscripts(new Node.MemberExpression(expr, property, true));
+  }
   return expr;
 }
+
+Parser.prototype.binaryPrecedence = function (token) {
+  const type = token.type, op = token.value;
+  let precedence = 0;
+  if (type === TokenTypes.Punctuator) {
+    precedence = this.operatorPrecedence[op] || 0;
+  } else if (type === TokenTypes.Keyword) {
+    precedence = (op === 'instanceof' || op === 'in') ? 7 : 0;
+  }
+  return precedence;
+}
+
+// 开始解析运算符优先级
+Parser.prototype.parseExprOp = function (left, lastPrec) {
+  let operator = this.lookahead;
+  let prec = this.binaryPrecedence(operator);
+  if (prec > lastPrec) {
+    this.nextToken();
+    let right = this.parseExprOp(this.parseAtomicExpression(), prec);
+    let node = new Node.BinaryExpression(operator.value, left, right);
+    // 递归解析后续的运算符
+    return this.parseExprOp(node, lastPrec);
+  }
+  return left;
+}
+
 
 // Parse an atomic expression
 Parser.prototype.parseAtomicExpression = function () {
@@ -97,6 +115,8 @@ Parser.prototype.parseAtomicExpression = function () {
     case TokenTypes.Punctuator:
       let value = token.value;
       switch (value) {
+        case '(':
+          return this.parseParenExpression();
         case '{':
           return this.parseObj();
         case '[':
@@ -110,10 +130,18 @@ Parser.prototype.parseAtomicExpression = function () {
     case TokenTypes.RegexpLiteral:
       return this.parseRegexLiteral(token.value, token.raw, token.regex);
     case TokenTypes.Identifier:
+    case TokenTypes.Keyword:
       return this.parseIdentifier(token.value);
     default:
       throw new Error();
   }
+}
+
+// () 
+Parser.prototype.parseParenExpression = function(){
+  let expr = this.parseExpression();
+  this.expect(')');
+  return expr;
 }
 
 // 解析对象
@@ -160,13 +188,14 @@ Parser.prototype.parseObjProperty = function () {
 
 // 解析标识符
 Parser.prototype.parseIdentifier = function (value) {
-  if (this.match('=')) {
-    this.nextToken();
-    let right = this.parseAssignmentExpression();
-    return new Node.AssignmentExpression('=', new Node.Identifier(value), right);
-  } else {
-    return new Node.Identifier(value);
-  }
+  // if (this.match('=')) {
+  //   this.nextToken();
+  //   let right = this.parseAssignmentExpression();
+  //   return new Node.AssignmentExpression('=', new Node.Identifier(value), right);
+  // } else {
+  //   return new Node.Identifier(value);
+  // }
+  return new Node.Identifier(value);
 }
 
 // 解析以逗号分隔的表达式列表

@@ -1,5 +1,15 @@
 import { test } from './test.js'
 
+// new 
+// new Button
+// new Button()
+// new new foo
+// new new foo()
+// new foo().bar()
+// new foo[bar]
+// new foo.bar()
+// ( new foo).bar()
+
 // var
 test("var x", {
   "type": "Program",

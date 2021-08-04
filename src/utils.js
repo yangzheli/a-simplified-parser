@@ -20,6 +20,15 @@ Parser.prototype.match = function (value) {
   return this.lookahead.type === TokenTypes.Punctuator && this.lookahead.value === value;
 }
 
+// Whether the next token is an assignment operator
+Parser.prototype.matchAssign = function () {
+  const op = this.lookahead.value;
+  return this.lookahead.type === TokenTypes.Punctuator &&
+    (op === '=' || op === '+=' || op === '-=' || op === '*=' || op === '/=' ||
+      op === '%=' || op === '&=' || op === '|=' || op === '^=' || op === '**=' ||
+      op === '<<=' || op === '>>=' || op === '>>>=');
+}
+
 // Consume a semicolon or see if it's allowed to insert a semicolon at the position
 Parser.prototype.consumeSemicolon = function () {
   if (this.match(';'))

@@ -18,7 +18,7 @@ export const SyntaxTypes = {
 
     Literal: 'Literal',  // number string boolean null undefined regexp
 
-    Property:'Property',    // 对象属性
+    Property: 'Property',    // 对象属性
 
     // punctuations
     ObjectExpression: 'ObjectExpression',   // {}
@@ -31,6 +31,9 @@ export const SyntaxTypes = {
     LogicalExpression: 'LogicalExpression',
     UpdateExpression: 'UpdateExpression',   // ++ -- 
     UnaryExpression: 'UnaryExpression', // ++ -- + - 
+    ConditionalExpression: 'ConditionalExpression',  // ?:
+    MemberExpression:'MemberExpression',    // . []
+    EmptyStatement:'EmptyStatement',    // ;
 
     // identifier
     Identifier: 'Identifier',

@@ -51,6 +51,12 @@ export class Directive {
   }
 }
 
+export class EmptyStatement {
+  constructor(){
+    this.type = SyntaxTypes.EmptyStatement;
+  }
+}
+
 export class ExpressionStatement {
   constructor(expression) {
     this.type = SyntaxTypes.ExpressionStatement;
@@ -70,6 +76,15 @@ export class Literal {
     this.type = SyntaxTypes.Literal;
     this.value = value;
     this.raw = raw;
+  }
+}
+
+export class MemberExpression {
+  constructor(object, property, computed) {
+    this.type = SyntaxTypes.MemberExpression;
+    this.object = object;
+    this.property = property;
+    this.computed = computed;
   }
 }
 

@@ -216,8 +216,6 @@ x || y || z
 x && y && z
 x || y && z
 x || y ^ z
-y ? 1 : 2
-x && y ? 1 : 2
 x = 42
 eval = 42
 arguments = 42

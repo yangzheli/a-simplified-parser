@@ -71,8 +71,7 @@ Parser.prototype.parseSourceElements = function () {
   let sourceElements = [];
 
   while (this.lookahead.type != TokenTypes.EOF) {
-    let token = this.lookahead;
-    let sourceElement = this.parseStatement(token);
+    let sourceElement = this.parseStatement();
     sourceElements.push(sourceElement);
   }
 

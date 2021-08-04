@@ -2,14 +2,15 @@ import { Parser } from './parser.js'
 import { TokenTypes } from './type.js'
 import * as Node from './node.js'
 
-Parser.prototype.parseStatement = function (token) {
+Parser.prototype.parseStatement = function () {
+  let token = this.lookahead;
   let type = token.type, value = token.value;
   if (type === TokenTypes.EOF) return;
 
   if (type === TokenTypes.Punctuator) {
     switch (value) {
       case ';':
-        return;
+        return this.parseEmptyStatement();
       case '{':
         return this.parseBlockStatement();
       case '(':
@@ -68,15 +69,23 @@ Parser.prototype.parseStatement = function (token) {
   return this.parseExpressionStatement(token);
 }
 
+// ;
+Parser.prototype.parseEmptyStatement = function () {
+  this.expect(';')
+  return new Node.EmptyStatement();
+}
+
 // Block statement
-Parser.prototype.parseBlockStatement = function(){
+Parser.prototype.parseBlockStatement = function () {
   this.expect('{');
 
-  while(!this.match('}')){
-
+  let body = [];
+  while (!this.match('}')) {
+    body.push(this.parseStatement());
   }
+  this.nextToken();
 
-  return new Node.BlockStatement();
+  return new Node.BlockStatement(body);
 }
 
 // Break statement
