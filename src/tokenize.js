@@ -87,6 +87,8 @@ Parser.prototype.readWord = function () {
     let word = this.input.slice(start, this.pos);
 
     if (Character.isKeyWord(word)) return this.finishToken(TokenTypes.Keyword, word);
+    else if (word === 'true' || word === 'false') return this.finishToken(TokenTypes.BooleanLiteral, Boolean(word));
+    else if (word === 'null') return this.finishToken(TokenTypes.NullLiteral, word);
     return this.finishToken(TokenTypes.Identifier, word);
 }
 

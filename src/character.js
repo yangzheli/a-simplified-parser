@@ -27,9 +27,9 @@ const Keywords = [
   "break", "delete", "function", "return", "typeof",
   "case", "do", "if", "switch", "var",
   "catch", "else", "in", "this", "void",
-  "continue", "false", "instanceof", "throw", "while",
-  "debugger", "finally", "new", "true", "with",
-  "default", "for", "null", "try"
+  "continue", "instanceof", "throw", "while",
+  "debugger", "finally", "new", "with",
+  "default", "for", "try"
 ];
 
 // reserved words in ECMAScript 5
@@ -69,7 +69,7 @@ export const Character = {
     return Regex.HexDigit.test(ch);
   },
 
-  isBinaryDigit:function(ch){
+  isBinaryDigit: function (ch) {
     return Regex.BinaryDigit.test(ch);
   },
 

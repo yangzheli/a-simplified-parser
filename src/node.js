@@ -17,6 +17,30 @@ export class AssignmentExpression {
   }
 }
 
+export class AsyncFunctionDeclaration {
+  constructor(id, params, body, generator) {
+    this.type = SyntaxTypes.FunctionDeclaration;
+    this.id = id;
+    this.params = params;
+    this.body = body;
+    this.generator = generator;
+    this.expression = false;
+    this.async = true;
+  }
+}
+
+export class AsyncFunctionExpression {
+  constructor(id, params, body, generator) {
+    this.type = SyntaxTypes.FunctionExpression;
+    this.id = id;
+    this.params = params;
+    this.body = body;
+    this.generator = generator;
+    this.expression = false;
+    this.async = true;
+  }
+}
+
 export class BinaryExpression {
   constructor(operator, left, right) {
     const logical = operator === '||' || operator === '&&';
@@ -31,6 +55,14 @@ export class BlockStatement {
   constructor(body) {
     this.type = SyntaxTypes.BlockStatement;
     this.body = body;
+  }
+}
+
+export class CallExpression {
+  constructor(callee, args) {
+    this.type = SyntaxTypes.CallExpression;
+    this.callee = callee;
+    this.arguments = args;
   }
 }
 
@@ -64,10 +96,43 @@ export class ExpressionStatement {
   }
 }
 
+export class FunctionDeclaration {
+  constructor(id, params, body, generator) {
+    this.type = SyntaxTypes.FunctionDeclaration;
+    this.id = id;
+    this.params = params;
+    this.body = body;
+    this.generator = generator;
+    this.expression = false;
+    this.async = false;
+  }
+}
+
+export class FunctionExpression {
+  constructor(id, params, body, generator) {
+    this.type = SyntaxTypes.FunctionExpression;
+    this.id = id;
+    this.params = params;
+    this.body = body;
+    this.generator = generator;
+    this.expression = false;
+    this.async = false;
+  }
+}
+
 export class Identifier {
   constructor(name) {
     this.type = SyntaxTypes.Identifier;
     this.name = name;
+  }
+}
+
+export class IfExpression {
+  constructor(test, consequent, alternate) {
+    this.type = SyntaxTypes.IfStatement;
+    this.test = test;
+    this.consequent = consequent;
+    this.alternate = alternate;
   }
 }
 

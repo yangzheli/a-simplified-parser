@@ -57,24 +57,29 @@ Parser.prototype.parseUnaryExpression = function () {
   return this.parseExprOp(expr, 0);
 }
 
-// 解析 . [] subscript expressions
+// 解析 . [] () subscript expressions
 Parser.prototype.parseExprSubscripts = function () {
   let expr = this.parseAtomicExpression();
   return this.parseSubscripts(expr);
 }
 
 // 递归解析
-Parser.prototype.parseSubscripts = function (expr) {
+Parser.prototype.parseSubscripts = function (expr, nocalls) {
   if (this.match('.')) {
     this.nextToken();
     let property = this.parseAtomicExpression();
-    return this.parseSubscripts(new Node.MemberExpression(expr, property, false));
+    return this.parseSubscripts(new Node.MemberExpression(expr, property, false), nocalls);
   } else if (this.match('[')) {
     this.nextToken();
     let property = this.parseAtomicExpression();
     this.expect(']');
-    return this.parseSubscripts(new Node.MemberExpression(expr, property, true));
+    return this.parseSubscripts(new Node.MemberExpression(expr, property, true), nocalls);
+  } else if (!nocalls && this.match('(')) {
+    this.nextToken();
+    let args = this.parseExprList(')');
+    return this.parseSubscripts(new Node.CallExpression(expr, args), nocalls);
   }
+
   return expr;
 }
 
@@ -119,16 +124,19 @@ Parser.prototype.parseAtomicExpression = function () {
         case '{':
           return this.parseObj();
         case '[':
-          return this.parseExprList();
+          let elements = this.parseExprList(']');
+          return new Node.ArrayExpression(elements);
         default:
           throw new Error();
       }
     case TokenTypes.StringLiteral:
     case TokenTypes.NumericLiteral:
+    case TokenTypes.BooleanLiteral:
       return this.parseLiteral(token.value, token.raw);
     case TokenTypes.RegexpLiteral:
       return this.parseRegexLiteral(token.value, token.raw, token.regex);
     case TokenTypes.Identifier:
+    case TokenTypes.NullLiteral:
     case TokenTypes.Keyword:
       switch (token.value) {
         case 'new':
@@ -170,9 +178,11 @@ Parser.prototype.parseObjProperty = function () {
   switch (token.type) {
     case TokenTypes.StringLiteral:
     case TokenTypes.NumericLiteral:
+    case TokenTypes.BooleanLiteral:
       key = new Node.Literal(token.value, token.raw);
       break;
     case TokenTypes.Identifier:
+    case TokenTypes.NullLiteral:
     case TokenTypes.Keyword:
       key = new Node.Identifier(token.value);
       break;
@@ -203,8 +213,7 @@ Parser.prototype.parseIdentifier = function (value) {
 }
 
 // 解析以逗号分隔的表达式列表
-Parser.prototype.parseExprList = function () {
-  const close = ']';
+Parser.prototype.parseExprList = function (close) {
   let elements = [];
 
   while (!this.match(close)) {
@@ -221,7 +230,7 @@ Parser.prototype.parseExprList = function () {
   }
   this.expect(close);
 
-  return new Node.ArrayExpression(elements);
+  return elements;
 }
 
 Parser.prototype.parseLiteral = function (value, raw) {
@@ -233,9 +242,12 @@ Parser.prototype.parseRegexLiteral = function (value, raw, regex) {
 }
 
 // new 
-Parser.prototype.parseNewExpression = function(){
-  console.log(this.lookahead)
-  let callee =null;
+Parser.prototype.parseNewExpression = function () {
+  let callee = this.parseSubscripts(this.parseAtomicExpression(), true);
   let args = null;
-  return new Node.NewExpression(callee,args);
+  if (this.match('(')) {
+    this.nextToken();
+    args = this.parseExprList(')');
+  }
+  return new Node.NewExpression(callee, args);
 }

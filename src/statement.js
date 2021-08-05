@@ -13,8 +13,6 @@ Parser.prototype.parseStatement = function () {
         return this.parseEmptyStatement();
       case '{':
         return this.parseBlockStatement();
-      case '(':
-        return;
       default:
         break;
     }
@@ -22,6 +20,8 @@ Parser.prototype.parseStatement = function () {
 
   if (type === TokenTypes.Keyword) {
     switch (value) {
+      case 'if':
+        return this.parseIfStatement();
       case 'break':
         return this.parseBreakStatement();
       case 'function':
@@ -86,6 +86,23 @@ Parser.prototype.parseBlockStatement = function () {
   return new Node.BlockStatement(body);
 }
 
+// If statement 
+Parser.prototype.parseIfStatement = function () {
+  this.expectKeyword('if');
+  this.expect('(');
+
+  let test = this.parseParenExpression();
+  let consequent = this.parseStatement();
+  let alternate = null;
+
+  if (this.matchKeyword('else')) {
+    this.nextToken();
+    alternate = this.parseStatement();
+  }
+
+  return new Node.IfExpression(test, consequent, alternate);
+}
+
 // Break statement
 Parser.prototype.parseBreakStatement = function () {
 
@@ -93,7 +110,22 @@ Parser.prototype.parseBreakStatement = function () {
 
 // Function declaration
 Parser.prototype.parseFunctionStatement = function () {
+  this.expectKeyword('function');
+  let id = this.parseVariableIdentifier();
+  this.expect('(');
+  let params = this.parseExprList(')');
+  let body = this.parseFunctionBody();
 
+  return new Node.FunctionDeclaration(id, params, body, false);
+}
+
+Parser.prototype.parseFunctionBody = function () {
+  let isExpression = this.lookahead.value !== '{';
+  if (isExpression) {
+    return this.parseExpression();
+  } else {
+    return this.parseBlockStatement();
+  }
 }
 
 // Return statement 
@@ -168,6 +200,7 @@ Parser.prototype.parseTryStatement = function () {
 // Expression statement
 Parser.prototype.parseExpressionStatement = function (token) {
   let expr = this.parseExpression();
+  this.consumeSemicolon();
   if (token.type === TokenTypes.StringLiteral) return new Node.Directive(expr, token.raw.slice(1, -1));
   return new Node.ExpressionStatement(expr);
 }

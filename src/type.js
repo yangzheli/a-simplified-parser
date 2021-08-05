@@ -32,8 +32,9 @@ export const SyntaxTypes = {
     UpdateExpression: 'UpdateExpression',   // ++ -- 
     UnaryExpression: 'UnaryExpression', // ++ -- + - 
     ConditionalExpression: 'ConditionalExpression',  // ?:
-    MemberExpression:'MemberExpression',    // . []
-    EmptyStatement:'EmptyStatement',    // ;
+    MemberExpression: 'MemberExpression',    // . []
+    EmptyStatement: 'EmptyStatement',    // ;
+    CallExpression: 'CallExpression',   // ()
 
     // identifier
     Identifier: 'Identifier',
@@ -41,6 +42,7 @@ export const SyntaxTypes = {
     // keywords
     BreakStatement: 'BreakStatement',    // break
     FunctionDeclaration: 'FunctionDeclaration',  // function
+    FunctionExpression: 'FunctionExpression',   // function
     ReturnStatement: 'ReturnStatement',  // return
     SwitchCase: 'SwitchCase',    // switch case
     DoWhileStatement: 'DoWhileStatement', // do while
