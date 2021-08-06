@@ -89,7 +89,7 @@ Parser.prototype.binaryPrecedence = function (token) {
   if (type === TokenTypes.Punctuator) {
     precedence = this.operatorPrecedence[op] || 0;
   } else if (type === TokenTypes.Keyword) {
-    precedence = (op === 'instanceof' || op === 'in') ? 7 : 0;
+    precedence = (op === 'instanceof' || (this.context.allowIn && op === 'in')) ? 7 : 0;
   }
   return precedence;
 }
@@ -141,6 +141,8 @@ Parser.prototype.parseAtomicExpression = function () {
       switch (token.value) {
         case 'new':
           return this.parseNewExpression();
+        case 'function':
+          return this.parseFunctionStatement(false);
         default:
           return this.parseIdentifier(token.value);
       }
@@ -221,7 +223,9 @@ Parser.prototype.parseExprList = function (close) {
       this.nextToken();
       elements.push(null);
     } else if (this.match('...')) {
-
+      this.nextToken();
+      let element = this.parseAtomicExpression();
+      elements.push(new Node.RestElement(element));
     } else {
       let element = this.parseAtomicExpression();
       elements.push(element);

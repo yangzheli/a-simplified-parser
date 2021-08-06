@@ -35,6 +35,7 @@ export const SyntaxTypes = {
     MemberExpression: 'MemberExpression',    // . []
     EmptyStatement: 'EmptyStatement',    // ;
     CallExpression: 'CallExpression',   // ()
+    RestElement: 'RestElement', // ...
 
     // identifier
     Identifier: 'Identifier',
@@ -46,18 +47,20 @@ export const SyntaxTypes = {
     ReturnStatement: 'ReturnStatement',  // return
     SwitchCase: 'SwitchCase',    // switch case
     DoWhileStatement: 'DoWhileStatement', // do while
+    WhileStatement: 'WhileStatement',   // while
     IfStatement: 'IfStatement',  // if
     SwitchStatement: 'SwitchStatement',   // switch
     VariableDeclaration: 'VariableDeclaration', // var
     VariableDeclarator: 'VariableDeclarator',    // var
     CatchClause: 'CatchClause',  // case
-    ForInStatement: 'ForInStatement',    // for in
     ThisExpression: 'ThisExpression',   // this
     ContinueStatement: 'ContinueStatement', // continue
     ThrowStatement: 'ThrowStatement',    // throw
     DebuggerStatement: 'DebuggerStatement',  // debugger
     NewExpression: 'NewExpression', // new
     WithStatement: 'WithStatement',  // with
+    ForInStatement: 'ForInStatement',    // for in
+    ForOfStatement: 'ForOfStatement',    // for of
     ForStatement: 'ForStatement',    // for
     TryStatement: 'TryStatement',    // try catch finally
 }

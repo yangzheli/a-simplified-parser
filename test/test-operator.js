@@ -2220,7 +2220,7 @@ test("universe[42].galaxies", {
   "sourceType": "script"
 })
 
-test("universe(42).galaxies",{
+test("universe(42).galaxies", {
   "type": "Program",
   "body": [
     {
@@ -2252,7 +2252,7 @@ test("universe(42).galaxies",{
   "sourceType": "script"
 })
 
-test("universe(42).galaxies(14, 3, 77).milkyway",{
+test("universe(42).galaxies(14, 3, 77).milkyway", {
   "type": "Program",
   "body": [
     {
@@ -2312,7 +2312,7 @@ test("universe(42).galaxies(14, 3, 77).milkyway",{
   "sourceType": "script"
 })
 
-test("earth.asia.Indonesia.prepareForElection(2014)",{
+test("earth.asia.Indonesia.prepareForElection(2014)", {
   "type": "Program",
   "body": [
     {
@@ -2454,6 +2454,29 @@ test(";", {
   "body": [
     {
       "type": "EmptyStatement"
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = 42;", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 42,
+          "raw": "42"
+        }
+      }
     }
   ],
   "sourceType": "script"

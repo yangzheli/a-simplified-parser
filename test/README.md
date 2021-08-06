@@ -285,6 +285,7 @@ universe.null
 分号 - `;`
 
 ```javascript
+x = 42;
 ;
 ```
 

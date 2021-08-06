@@ -263,6 +263,10 @@ Parser.prototype.readPunctuator = function () {
     let ch2 = this.input[this.pos + 1];
     if (ch === '\.' && !Character.isDecimalDigit(ch2)) {
         ++this.pos;
+        if (this.input[this.pos] === '.' && this.input[this.pos + 1] === '.') {
+            this.pos += 2;
+            return this.finishToken(TokenTypes.Punctuator, '...');
+        }
         return this.finishToken(TokenTypes.Punctuator, ch);
     }
 

@@ -58,6 +58,13 @@ export class BlockStatement {
   }
 }
 
+export class BreakStatement {
+  constructor(label) {
+    this.type = SyntaxTypes.BreakStatement;
+    this.label = label;
+  }
+}
+
 export class CallExpression {
   constructor(callee, args) {
     this.type = SyntaxTypes.CallExpression;
@@ -75,11 +82,26 @@ export class ConditionalExpression {
   }
 }
 
+export class ContinueStatement {
+  constructor(label) {
+    this.type = SyntaxTypes.ContinueStatement;
+    this.label = label;
+  }
+}
+
 export class Directive {
   constructor(expression, directive) {
     this.type = SyntaxTypes.ExpressionStatement;
     this.expression = expression;
     this.directive = directive;
+  }
+}
+
+export class DoWhileStatement {
+  constructor(body, test) {
+    this.type = SyntaxTypes.DoWhileStatement;
+    this.body = body;
+    this.test = test;
   }
 }
 
@@ -93,6 +115,35 @@ export class ExpressionStatement {
   constructor(expression) {
     this.type = SyntaxTypes.ExpressionStatement;
     this.expression = expression;
+  }
+}
+
+export class ForInStatement {
+  constructor(left, right, body) {
+    this.type = SyntaxTypes.ForInStatement;
+    this.left = left;
+    this.right = right;
+    this.body = body;
+    this.each = false;
+  }
+}
+
+export class ForOfStatement {
+  constructor(left, right, body) {
+    this.type = SyntaxTypes.ForOfStatement;
+    this.left = left;
+    this.right = right;
+    this.body = body;
+  }
+}
+
+export class ForStatement {
+  constructor(init, test, update, body) {
+    this.type = SyntaxTypes.ForStatement;
+    this.init = init;
+    this.test = test;
+    this.update = update;
+    this.body = body;
   }
 }
 
@@ -189,6 +240,13 @@ export class RegexLiteral {
   }
 }
 
+export class RestElement {
+  constructor(argument) {
+    this.type = SyntaxTypes.RestElement;
+    this.argument = argument;
+  }
+}
+
 export class UnaryExpression {
   constructor(operator, argument) {
     this.type = SyntaxTypes.UnaryExpression;
@@ -220,5 +278,13 @@ export class VariableDeclarator {
     this.type = SyntaxTypes.VariableDeclarator;
     this.id = id;
     this.init = init;
+  }
+}
+
+export class WhileStatement {
+  constructor(test, body) {
+    this.type = SyntaxTypes.WhileStatement;
+    this.test = test;
+    this.body = body;
   }
 }

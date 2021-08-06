@@ -843,8 +843,929 @@ test("if (true) that(); else;", {
   "sourceType": "script"
 })
 
+// for
+test("for(;;);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(;;){}", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BlockStatement",
+        "body": []
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(x = 0;;);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 0,
+          "raw": "0"
+        }
+      },
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(var x = 0;;);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "x"
+            },
+            "init": {
+              "type": "Literal",
+              "value": 0,
+              "raw": "0"
+            }
+          }
+        ],
+        "kind": "var"
+      },
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(var x = 0, y = 1;;);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "x"
+            },
+            "init": {
+              "type": "Literal",
+              "value": 0,
+              "raw": "0"
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "y"
+            },
+            "init": {
+              "type": "Literal",
+              "value": 1,
+              "raw": "1"
+            }
+          }
+        ],
+        "kind": "var"
+      },
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(x = 0; x < 42;);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 0,
+          "raw": "0"
+        }
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 42,
+          "raw": "42"
+        }
+      },
+      "update": null,
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(x = 0; x < 42; x++);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 0,
+          "raw": "0"
+        }
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 42,
+          "raw": "42"
+        }
+      },
+      "update": {
+        "type": "UpdateExpression",
+        "operator": "++",
+        "argument": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "prefix": false
+      },
+      "body": {
+        "type": "EmptyStatement"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(x = 0; x < 42; x++) process(x);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForStatement",
+      "init": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 0,
+          "raw": "0"
+        }
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 42,
+          "raw": "42"
+        }
+      },
+      "update": {
+        "type": "UpdateExpression",
+        "operator": "++",
+        "argument": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "prefix": false
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "process"
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "x"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for(x in list) process(x);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForInStatement",
+      "left": {
+        "type": "Identifier",
+        "name": "x"
+      },
+      "right": {
+        "type": "Identifier",
+        "name": "list"
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "process"
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "x"
+            }
+          ]
+        }
+      },
+      "each": false
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("for (var x in list) process(x);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ForInStatement",
+      "left": {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "x"
+            },
+            "init": null
+          }
+        ],
+        "kind": "var"
+      },
+      "right": {
+        "type": "Identifier",
+        "name": "list"
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "process"
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "x"
+            }
+          ]
+        }
+      },
+      "each": false
+    }
+  ],
+  "sourceType": "script"
+})
+
+// test("var x; for (x = 0 in list) process(x);")
+// test("'use strict'; for (var x = 0 in list) process(x);")
+// test("for (var [x] = 0 in list) process(x);")
+// test("for (var {x} = 0 in list) process(x);")
+// test("for (var x = 42 in list) process(x);")
+// test("for (var x = 42 in list) process(x);")
+// test("for (var i = function() { return 10 in [] } in list) process(x);")
+
+// switch case
+test("do keep(); while (true)", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "keep"
+          },
+          "arguments": []
+        }
+      },
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("do keep(); while (true);", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "keep"
+          },
+          "arguments": []
+        }
+      },
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("do { x++; y--; } while (x < 10)", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "DoWhileStatement",
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "UpdateExpression",
+              "operator": "++",
+              "argument": {
+                "type": "Identifier",
+                "name": "x"
+              },
+              "prefix": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "UpdateExpression",
+              "operator": "--",
+              "argument": {
+                "type": "Identifier",
+                "name": "y"
+              },
+              "prefix": false
+            }
+          }
+        ]
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 10,
+          "raw": "10"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("{ do { } while (false);false }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "BlockStatement",
+      "body": [
+        {
+          "type": "DoWhileStatement",
+          "body": {
+            "type": "BlockStatement",
+            "body": []
+          },
+          "test": {
+            "type": "Literal",
+            "value": false,
+            "raw": "false"
+          }
+        },
+        {
+          "type": "ExpressionStatement",
+          "expression": {
+            "type": "Literal",
+            "value": false,
+            "raw": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) doSomething()", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "doSomething"
+          },
+          "arguments": []
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (x < 10) { x++; y--; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "BinaryExpression",
+        "operator": "<",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "Literal",
+          "value": 10,
+          "raw": "10"
+        }
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "UpdateExpression",
+              "operator": "++",
+              "argument": {
+                "type": "Identifier",
+                "name": "x"
+              },
+              "prefix": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "UpdateExpression",
+              "operator": "--",
+              "argument": {
+                "type": "Identifier",
+                "name": "y"
+              },
+              "prefix": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { continue; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ContinueStatement",
+            "label": null
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { continue }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ContinueStatement",
+            "label": null
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+// test("done: while (true) { continue done }", {
+//   "type": "Program",
+//   "body": [
+//     {
+//       "type": "LabeledStatement",
+//       "label": {
+//         "type": "Identifier",
+//         "name": "done"
+//       },
+//       "body": {
+//         "type": "WhileStatement",
+//         "test": {
+//           "type": "Literal",
+//           "value": true,
+//           "raw": "true"
+//         },
+//         "body": {
+//           "type": "BlockStatement",
+//           "body": [
+//             {
+//               "type": "ContinueStatement",
+//               "label": {
+//                 "type": "Identifier",
+//                 "name": "done"
+//               }
+//             }
+//           ]
+//         }
+//       }
+//     }
+//   ],
+//   "sourceType": "script"
+// })
+
+// test("done: while (true) { continue done; }",{
+//   "type": "Program",
+//   "body": [
+//     {
+//       "type": "LabeledStatement",
+//       "label": {
+//         "type": "Identifier",
+//         "name": "done"
+//       },
+//       "body": {
+//         "type": "WhileStatement",
+//         "test": {
+//           "type": "Literal",
+//           "value": true,
+//           "raw": "true"
+//         },
+//         "body": {
+//           "type": "BlockStatement",
+//           "body": [
+//             {
+//               "type": "ContinueStatement",
+//               "label": {
+//                 "type": "Identifier",
+//                 "name": "done"
+//               }
+//             }
+//           ]
+//         }
+//       }
+//     }
+//   ],
+//   "sourceType": "script"
+// })
+
+test("while (true) { break }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "BreakStatement",
+            "label": null
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+// done: while (true) { break done }
+// done: while (true) { break done; }
+test("while (true) { continue\nthere; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ContinueStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { continue // Comment\nthere; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ContinueStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { continue /* Multiline\nComment */there; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ContinueStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { break\nthere; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "BreakStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) {break // Comment\nthere; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "BreakStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("while (true) { break /* Multiline\nComment */there; }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "test": {
+        "type": "Literal",
+        "value": true,
+        "raw": "true"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "BreakStatement",
+            "label": null
+          },
+          {
+            "type": "ExpressionStatement",
+            "expression": {
+              "type": "Identifier",
+              "name": "there"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+
 // function
-test("function hello() { sayHi(); }",{
+test("function hello() { sayHi(); }", {
   "type": "Program",
   "body": [
     {
@@ -878,7 +1799,7 @@ test("function hello() { sayHi(); }",{
   "sourceType": "script"
 })
 
-test("function eval() { }",{
+test("function eval() { }", {
   "type": "Program",
   "body": [
     {
@@ -900,7 +1821,7 @@ test("function eval() { }",{
   "sourceType": "script"
 })
 
-test("function arguments() { }",{
+test("function arguments() { }", {
   "type": "Program",
   "body": [
     {
@@ -922,7 +1843,7 @@ test("function arguments() { }",{
   "sourceType": "script"
 })
 
-test("function test(t, t) { }",{
+test("function test(t, t) { }", {
   "type": "Program",
   "body": [
     {
@@ -987,7 +1908,7 @@ test("function test(t, t) { }",{
 //   "sourceType": "script"
 // })
 
-test("function eval() { function inner() { \"use strict\" } }",{
+test("function eval() { function inner() { \"use strict\" } }", {
   "type": "Program",
   "body": [
     {
@@ -1035,7 +1956,7 @@ test("function eval() { function inner() { \"use strict\" } }",{
   "sourceType": "script"
 })
 
-test("function hello(a) { sayHi(); }",{
+test("function hello(a) { sayHi(); }", {
   "type": "Program",
   "body": [
     {
@@ -1074,7 +1995,7 @@ test("function hello(a) { sayHi(); }",{
   "sourceType": "script"
 })
 
-test("function hello(a, b) { sayHi(); }",{
+test("function hello(a, b) { sayHi(); }", {
   "type": "Program",
   "body": [
     {
@@ -1117,7 +2038,7 @@ test("function hello(a, b) { sayHi(); }",{
   "sourceType": "script"
 })
 
-test("function hello(...rest) { }",{
+test("function hello(...rest) { }", {
   "type": "Program",
   "body": [
     {
@@ -1147,7 +2068,7 @@ test("function hello(...rest) { }",{
   "sourceType": "script"
 })
 
-test("function hello(a, ...rest) { }",{
+test("function hello(a, ...rest) { }", {
   "type": "Program",
   "body": [
     {
@@ -1181,7 +2102,7 @@ test("function hello(a, ...rest) { }",{
   "sourceType": "script"
 })
 
-test("var hi = function() { sayHi() };",{
+test("var hi = function() { sayHi() };", {
   "type": "Program",
   "body": [
     {
@@ -1225,7 +2146,7 @@ test("var hi = function() { sayHi() };",{
   "sourceType": "script"
 })
 
-test("var hi = function (...r) { sayHi() };",{
+test("var hi = function (...r) { sayHi() };", {
   "type": "Program",
   "body": [
     {
@@ -1277,7 +2198,7 @@ test("var hi = function (...r) { sayHi() };",{
   "sourceType": "script"
 })
 
-test("var hi = function eval() { };",{
+test("var hi = function eval() { };", {
   "type": "Program",
   "body": [
     {
@@ -1312,7 +2233,7 @@ test("var hi = function eval() { };",{
   "sourceType": "script"
 })
 
-test("var hi = function arguments() { };",{
+test("var hi = function arguments() { };", {
   "type": "Program",
   "body": [
     {
@@ -1347,7 +2268,7 @@ test("var hi = function arguments() { };",{
   "sourceType": "script"
 })
 
-test("var hello = function hi() { sayHi() };",{
+test("var hello = function hi() { sayHi() };", {
   "type": "Program",
   "body": [
     {
@@ -1394,7 +2315,7 @@ test("var hello = function hi() { sayHi() };",{
   "sourceType": "script"
 })
 
-test("(function(){})",{
+test("(function(){})", {
   "type": "Program",
   "body": [
     {
