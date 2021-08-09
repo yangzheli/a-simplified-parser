@@ -73,6 +73,14 @@ export class CallExpression {
   }
 }
 
+export class CatchClause {
+  constructor(param, body) {
+    this.type = SyntaxTypes.CatchClause;
+    this.param = param;
+    this.body = body;
+  }
+}
+
 export class ConditionalExpression {
   constructor(test, consequent, alternate) {
     this.type = SyntaxTypes.ConditionalExpression;
@@ -86,6 +94,12 @@ export class ContinueStatement {
   constructor(label) {
     this.type = SyntaxTypes.ContinueStatement;
     this.label = label;
+  }
+}
+
+export class DebuggerStatement {
+  constructor() {
+    this.type = SyntaxTypes.DebuggerStatement;
   }
 }
 
@@ -187,6 +201,14 @@ export class IfExpression {
   }
 }
 
+export class LabeledStatement {
+  constructor(label, body) {
+    this.type = SyntaxTypes.LabeledStatement;
+    this.label = label;
+    this.body = body;
+  }
+}
+
 export class Literal {
   constructor(value, raw) {
     this.type = SyntaxTypes.Literal;
@@ -247,6 +269,45 @@ export class RestElement {
   }
 }
 
+export class ReturnStatement {
+  constructor(argument) {
+    this.type = SyntaxTypes.ReturnStatement;
+    this.argument = argument;
+  }
+}
+
+export class SwitchCase {
+  constructor(test, consequent) {
+    this.type = SyntaxTypes.SwitchCase;
+    this.test = test;
+    this.consequent = consequent;
+  }
+}
+
+export class SwitchStatement {
+  constructor(discriminant, cases) {
+    this.type = SyntaxTypes.SwitchStatement;
+    this.discriminant = discriminant;
+    this.cases = cases;
+  }
+}
+
+export class ThrowStatement {
+  constructor(argument) {
+    this.type = SyntaxTypes.ThrowStatement;
+    this.argument = argument;
+  }
+}
+
+export class TryStatement {
+  constructor(block, handler, finalizer) {
+    this.type = SyntaxTypes.TryStatement;
+    this.block = block;
+    this.handler = handler;
+    this.finalizer = finalizer;
+  }
+}
+
 export class UnaryExpression {
   constructor(operator, argument) {
     this.type = SyntaxTypes.UnaryExpression;
@@ -285,6 +346,14 @@ export class WhileStatement {
   constructor(test, body) {
     this.type = SyntaxTypes.WhileStatement;
     this.test = test;
+    this.body = body;
+  }
+}
+
+export class WithStatement {
+  constructor(object, body) {
+    this.type = SyntaxTypes.WithStatement;
+    this.object = object;
     this.body = body;
   }
 }

@@ -44,7 +44,7 @@ Parser.prototype.finishToken = function (type, value, regex) {
     if (regex)
         return { type: type, value: value, raw: raw, regex: regex }
 
-    return { type: type, value: value, raw: raw };
+    return { type: type, value: value, raw: raw, line: this.line };
 }
 
 // Get next token
@@ -53,6 +53,7 @@ Parser.prototype.nextToken = function () {
     this.skipSpace();
     let next = this.readToken();
     this.lookahead = next;
+    this.context.hasLineTerminator = (token && next) ? (token.line !== next.line) : false;
     return token;
 }
 
@@ -87,7 +88,7 @@ Parser.prototype.readWord = function () {
     let word = this.input.slice(start, this.pos);
 
     if (Character.isKeyWord(word)) return this.finishToken(TokenTypes.Keyword, word);
-    else if (word === 'true' || word === 'false') return this.finishToken(TokenTypes.BooleanLiteral, Boolean(word));
+    else if (word === 'true' || word === 'false') return this.finishToken(TokenTypes.BooleanLiteral, word === "true");
     else if (word === 'null') return this.finishToken(TokenTypes.NullLiteral, word);
     return this.finishToken(TokenTypes.Identifier, word);
 }
@@ -362,11 +363,16 @@ Parser.prototype.skipLineComment = function () {
     while (this.pos < this.inputLen && !Character.isLineTerminator(this.input[this.pos])) {
         ++this.pos;
     }
+    ++this.line;
 }
 
 // Skips multiline comments
 Parser.prototype.skipBlockComment = function () {
     let end = this.input.indexOf("*/", this.pos += 2);
     if (end === -1) throw new TypeError(Errors.UnterminatedComment);
+    while (this.pos <= end) {
+        if (Character.isLineTerminator(this.input[this.pos]))++this.line;
+        ++this.pos;
+    }
     this.pos = end + 2;
 }

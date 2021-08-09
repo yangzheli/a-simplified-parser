@@ -36,6 +36,7 @@ export const SyntaxTypes = {
     EmptyStatement: 'EmptyStatement',    // ;
     CallExpression: 'CallExpression',   // ()
     RestElement: 'RestElement', // ...
+    LabeledStatement: 'LabeledStatement',   // :
 
     // identifier
     Identifier: 'Identifier',
@@ -45,10 +46,10 @@ export const SyntaxTypes = {
     FunctionDeclaration: 'FunctionDeclaration',  // function
     FunctionExpression: 'FunctionExpression',   // function
     ReturnStatement: 'ReturnStatement',  // return
-    SwitchCase: 'SwitchCase',    // switch case
     DoWhileStatement: 'DoWhileStatement', // do while
     WhileStatement: 'WhileStatement',   // while
     IfStatement: 'IfStatement',  // if
+    SwitchCase: 'SwitchCase',    // switch case
     SwitchStatement: 'SwitchStatement',   // switch
     VariableDeclaration: 'VariableDeclaration', // var
     VariableDeclarator: 'VariableDeclarator',    // var

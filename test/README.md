@@ -374,6 +374,11 @@ do { x++; y--; } while (x < 10)
 { do { } while (false);false }
 while (true) doSomething()
 while (x < 10) { x++; y--; }
+```
+
+### break continue
+
+```javascript
 while (true) { continue; }
 while (true) { continue }
 done: while (true) { continue done }
@@ -390,6 +395,12 @@ while (true) { break /* Multiline\nComment */there; }
 ```
 
 ### switch case
+
+```javascript
+switch (x) {}
+switch (answer) { case 42: hi(); break; }
+switch (answer) { case 42: hi(); break; default: break }
+```
 
 ### function
 
@@ -410,4 +421,56 @@ var hi = function eval() { };
 var hi = function arguments() { };
 var hello = function hi() { sayHi() };
 (function(){})
+```
+
+### labelled
+
+```javascript
+start: for (;;) break start
+start: while (true) break start
+__proto__: test
+```
+
+### return 
+
+```javascript
+(function(){ return })
+(function(){ return; })
+(function(){ return x; })
+(function(){ return x * y })
+```
+
+### throw
+
+```javascript
+throw x;
+throw x * y
+throw { message: "Error" }
+```
+
+### try catch 
+
+```javascript
+try { } catch (e) { }
+try { } catch (eval) { }
+try { } catch (arguments) { }
+try { } catch (e) { say(e) }
+try { } finally { cleanup(stuff) }
+try { doThat(); } catch (e) { say(e) }
+try { doThat(); } catch (e) { say(e) } finally { cleanup(stuff) }
+"use strict";\ntry {} catch (evil) {}
+```
+
+### with
+
+```javascript
+with (x) foo = bar
+with (x) foo = bar;
+with (x) { foo = bar }
+```
+
+### debugger
+
+```javascript
+debugger;
 ```

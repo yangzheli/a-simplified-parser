@@ -43,5 +43,5 @@ Parser.prototype.consumeSemicolon = function () {
 }
 
 Parser.prototype.canInsertSemicolon = function () {
-  return this.lookahead.type === TokenTypes.EOF || this.lookahead.value === '}' || Character.isLineTerminator(this.lookahead);
+  return this.lookahead.type === TokenTypes.EOF || this.lookahead.value === '}' || this.context.hasLineTerminator;
 }

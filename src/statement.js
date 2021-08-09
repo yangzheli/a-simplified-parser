@@ -30,16 +30,13 @@ Parser.prototype.parseStatement = function () {
       case 'return':
         return this.parseReturnStatement();
       case 'switch':
-      case 'case':
-        return this.parseSwitchCaseStatement();
+        return this.parseSwitchStatement();
       case 'do':
         return this.parseDoWhileStatement();
       case 'while':
         return this.parseWhileStatement();
       case 'var':
         return this.parseVarStatement();
-      case 'catch':
-        return this.parseCatchStatement();
       case 'this':
         return this.parseThisStatement();
       case 'throw':
@@ -51,8 +48,6 @@ Parser.prototype.parseStatement = function () {
       case 'for':
         return this.parseForStatement();
       case 'try':
-      case 'catch':
-      case 'finally':
         return this.parseTryStatement();
       default:
         break;
@@ -61,7 +56,12 @@ Parser.prototype.parseStatement = function () {
 
   // If the statement does not start with a keyword or a brace, 
   // it's an ExpressionStatement or LabeledStatement.
-  return this.parseExpressionStatement(token);
+  let expr = this.parseExpression();
+  if (expr.type === TokenTypes.Identifier && this.match(':')) {
+    this.expect(':');
+    return this.parseLabeledStatement(expr);
+  }
+  return this.parseExpressionStatement(token, expr);
 }
 
 // ;
@@ -109,6 +109,11 @@ Parser.prototype.parseBreakContinueStatement = function (keyword) {
   if (this.match(';') || this.canInsertSemicolon()) label = null;
   else label = this.parseVariableIdentifier();
 
+  let labels = this.context.labels;
+  if (label && labels.indexOf(label.name) === -1) {
+    throw new Error('Undefined label ' + label);
+  }
+
   if (isBreak) return new Node.BreakStatement(label);
   else return new Node.ContinueStatement(label);
 }
@@ -131,18 +136,66 @@ Parser.prototype.parseFunctionBody = function () {
   if (isExpression) {
     return this.parseExpression();
   } else {
-    return this.parseBlockStatement();
+    let _inFunction = this.context.inFunction;
+    this.context.inFunction = true;
+    let body = this.parseBlockStatement();
+    this.context.inFunction = _inFunction;
+    return body;
   }
 }
 
 // Return statement 
 Parser.prototype.parseReturnStatement = function () {
+  if (!this.context.inFunction) throw new Error('return outside of function');
 
+  this.expectKeyword('return');
+  let argument = null;
+  if (!this.match(';') && !this.canInsertSemicolon()) argument = this.parseExpression();
+  this.consumeSemicolon();
+
+  return new Node.ReturnStatement(argument);
 }
 
 // Switch case statement
-Parser.prototype.parseSwitchCaseStatement = function () {
+Parser.prototype.parseSwitchStatement = function () {
+  this.expectKeyword('switch');
+  this.expect('(');
+  let discriminant = this.parseParenExpression();
 
+  this.expect('{');
+  let cases = [];
+  let defaultFound = false;
+  while (this.lookahead.value !== '}') {
+    let clause = this.parseSwitchCase();
+    if (!clause.test) {
+      if (defaultFound) throw new Error('Multiple default clauses')
+      this.defaultFound = true;
+    }
+    cases.push(clause);
+  }
+  this.expect('}');
+
+  return new Node.SwitchStatement(discriminant, cases);
+}
+
+Parser.prototype.parseSwitchCase = function () {
+  let test = null;
+  if (this.matchKeyword('case')) {
+    this.expectKeyword('case');
+    test = this.parseExpression();
+  } else {
+    this.expectKeyword('default');
+  }
+  this.expect(':');
+
+  let consequent = [];
+  while (true) {
+    if (this.match('}') || this.matchKeyword('case') || this.matchKeyword('default')) break;
+
+    consequent.push(this.parseStatement());
+  }
+
+  return new Node.SwitchCase(test, consequent);
 }
 
 // Do while statement
@@ -176,11 +229,6 @@ Parser.prototype.parseVarStatement = function () {
   return new Node.VariableDeclaration(declarations, 'var');
 }
 
-// Catch statement
-Parser.prototype.parseCatchStatement = function () {
-
-}
-
 // This statement
 Parser.prototype.parseThisStatement = function () {
 
@@ -188,17 +236,30 @@ Parser.prototype.parseThisStatement = function () {
 
 // throw statement
 Parser.prototype.parseThrowStatement = function () {
+  this.expectKeyword('throw');
+  if (this.context.hasLineTerminator) throw new Error('Illegal newline after throw');
+  let argument = this.parseExpression();
+  this.consumeSemicolon();
 
+  return new Node.ThrowStatement(argument);
 }
 
 // Debugger statement
 Parser.prototype.parseDebuggerStatement = function () {
+  this.expectKeyword('debugger');
+  this.consumeSemicolon();
 
+  return new Node.DebuggerStatement();
 }
 
 // With statement
 Parser.prototype.parseWithStatement = function () {
+  this.expectKeyword('with');
+  this.expect('(');
+  let object = this.parseParenExpression();
+  let body = this.parseStatement();
 
+  return new Node.WithStatement(object, body);
 }
 
 // For statement
@@ -222,6 +283,7 @@ Parser.prototype.parseForStatement = function () {
   if (this.lookahead.value === 'in' || this.lookahead.value === 'of') {
     return this.parseForIn(init);
   }
+  this.context.allowIn = true;
   return this.parseFor(init);
 }
 
@@ -251,12 +313,41 @@ Parser.prototype.parseFor = function (init) {
 
 // Try catch finally statement
 Parser.prototype.parseTryStatement = function () {
+  this.expectKeyword('try');
+  let block = this.parseBlockStatement();
 
+  let handler = null;
+  if (this.matchKeyword('catch')) {
+    this.expectKeyword('catch');
+    this.expect('(');
+    let param = this.parseParenExpression();
+    let body = this.parseBlockStatement();
+    handler = new Node.CatchClause(param, body);
+  }
+
+  let finalizer = null;
+  if (this.matchKeyword('finally')) {
+    this.expectKeyword('finally');
+    finalizer = this.parseBlockStatement();
+  }
+
+  if (!handler && !finalizer) throw new Error('Missing catch or finally clause');
+  return new Node.TryStatement(block, handler, finalizer);
+}
+
+// Labeled statement
+Parser.prototype.parseLabeledStatement = function (expr) {
+  let labels = this.context.labels, value = expr.name;
+  if (labels.indexOf(expr.name) !== -1) throw new Error('Label ' + expr.value + 'is already declared');
+  labels.push(expr.name);
+  let body = this.parseStatement();
+  labels.pop();
+
+  return new Node.LabeledStatement(expr, body);
 }
 
 // Expression statement
-Parser.prototype.parseExpressionStatement = function (token) {
-  let expr = this.parseExpression();
+Parser.prototype.parseExpressionStatement = function (token, expr) {
   this.consumeSemicolon();
   if (token.type === TokenTypes.StringLiteral) return new Node.Directive(expr, token.raw.slice(1, -1));
   return new Node.ExpressionStatement(expr);
