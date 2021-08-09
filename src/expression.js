@@ -143,6 +143,8 @@ Parser.prototype.parseAtomicExpression = function () {
           return this.parseNewExpression();
         case 'function':
           return this.parseFunctionStatement(false);
+        case 'this':
+          return new Node.ThisExpression();
         default:
           return this.parseIdentifier(token.value);
       }
@@ -191,12 +193,17 @@ Parser.prototype.parseObjProperty = function () {
     default:
       throw new Error();
   }
-  kind = 'init';
   this.nextToken();
-
-  if (this.match(':')) {
-    this.nextToken();
-    value = this.parseAtomicExpression();
+  if (token.type === TokenTypes.Identifier && (token.value === 'get' || token.value === 'set')) {
+    kind = token.value;
+    key = this.parseAtomicExpression();
+    value = this.parseFunctionStatement(false);
+  } else {
+    kind = 'init';
+    if (this.match(':')) {
+      this.nextToken();
+      value = this.parseAtomicExpression();
+    }
   }
 
   return new Node.Property(kind, key, value, computed, method, shorthand);

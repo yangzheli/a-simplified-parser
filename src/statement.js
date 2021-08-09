@@ -37,8 +37,6 @@ Parser.prototype.parseStatement = function () {
         return this.parseWhileStatement();
       case 'var':
         return this.parseVarStatement();
-      case 'this':
-        return this.parseThisStatement();
       case 'throw':
         return this.parseThrowStatement();
       case 'debugger':
@@ -227,11 +225,6 @@ Parser.prototype.parseVarStatement = function () {
   this.consumeSemicolon();
 
   return new Node.VariableDeclaration(declarations, 'var');
-}
-
-// This statement
-Parser.prototype.parseThisStatement = function () {
-
 }
 
 // throw statement

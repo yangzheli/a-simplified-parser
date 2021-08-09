@@ -1019,18 +1019,880 @@ test("x = { x: 1, x: 2 }", {
   "sourceType": "script"
 })
 
-// x = { get width() { return m_width } }
-// x = { get undef() {} }
-// x = { get if() {} }
-// x = { get true() {} }
-// x = { get false() {} }
-// x = { get null() {} }
-// x = { get "undef"() {} }
-// x = { get 10() {} }
-// x = { set width(w) { m_width = w } }
-// x = { set if(w) { m_if = w } }
-// x = { set true(w) { m_true = w } }
-// x = { set false(w) { m_false = w } }
-// x = { set null(w) { m_null = w } }
-// x = { set "null"(w) { m_null = w } }
-// x = { set 10(w) { m_null = w } }
+test("x = { get width() { return m_width } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "width"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ReturnStatement",
+                      "argument": {
+                        "type": "Identifier",
+                        "name": "m_width"
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get undef() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "undef"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get if() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "if"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get true() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "true"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get false() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "false"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get null() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "null"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get \"undef\"() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Literal",
+                "value": "undef",
+                "raw": "\"undef\""
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { get 10() { } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Literal",
+                "value": 10,
+                "raw": "10"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": []
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "get",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set width(w) { m_width = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "width"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_width"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set if(w) { m_if = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "if"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_if"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set true(w) { m_true = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "true"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_true"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set false(w) { m_false = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "false"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_false"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set null(w) { m_null = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Identifier",
+                "name": "null"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_null"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set \"null\"(w) { m_null = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Literal",
+                "value": "null",
+                "raw": "\"null\""
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_null"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("x = { set 10(w) { m_null = w } }", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "AssignmentExpression",
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "name": "x"
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "type": "Property",
+              "key": {
+                "type": "Literal",
+                "value": 10,
+                "raw": "10"
+              },
+              "computed": false,
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "w"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "Identifier",
+                          "name": "m_null"
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "w"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "generator": false,
+                "expression": false,
+                "async": false
+              },
+              "kind": "set",
+              "method": false,
+              "shorthand": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+// other
+test("this", {
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "ThisExpression"
+      }
+    }
+  ],
+  "sourceType": "script"
+})
+
+test("null",{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "Literal",
+        "value": null,
+        "raw": "null"
+      }
+    }
+  ],
+  "sourceType": "script"
+})

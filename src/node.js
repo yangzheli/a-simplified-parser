@@ -292,6 +292,12 @@ export class SwitchStatement {
   }
 }
 
+export class ThisExpression {
+  constructor() {
+    this.type = SyntaxTypes.ThisExpression;
+  }
+}
+
 export class ThrowStatement {
   constructor(argument) {
     this.type = SyntaxTypes.ThrowStatement;

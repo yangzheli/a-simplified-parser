@@ -133,8 +133,6 @@ x = { set: 43 }
 ```javascript
 this 
 null
-  42
-(1 + 2 ) * 3
 ```
 
 ## Operator
