@@ -37,11 +37,16 @@ export const SyntaxTypes = {
     CallExpression: 'CallExpression',   // ()
     RestElement: 'RestElement', // ...
     LabeledStatement: 'LabeledStatement',   // :
+    ArrowFunctionExpression: 'ArrowFunctionExpression', // =>
 
     // identifier
     Identifier: 'Identifier',
 
     // keywords
+    MethodDefinition: 'MethodDefinition',
+    ClassBody: 'ClassBody',
+    ClassDeclaration: 'ClassDeclaration',
+    ClassExpression: 'ClassExpression', // class
     BreakStatement: 'BreakStatement',    // break
     FunctionDeclaration: 'FunctionDeclaration',  // function
     FunctionExpression: 'FunctionExpression',   // function

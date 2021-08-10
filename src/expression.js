@@ -19,6 +19,13 @@ Parser.prototype.parseAssignmentExpression = function () {
   return left;
 }
 
+// =>
+Parser.prototype.parseArrowExpression = function (params) {
+  this.expect('=>');
+  let body = this.parseFunctionBody();
+  return new Node.ArrowFunctionExpression(params, body, true);
+}
+
 // ?: 操作符
 Parser.prototype.parseConditionalExpression = function () {
   let expr = this.parseUnaryExpression();
@@ -120,7 +127,7 @@ Parser.prototype.parseAtomicExpression = function () {
     case TokenTypes.Punctuator:
       switch (token.value) {
         case '(':
-          return this.parseParenExpression();
+          return this.parseGroupExpression();
         case '{':
           return this.parseObj();
         case '[':
@@ -145,11 +152,23 @@ Parser.prototype.parseAtomicExpression = function () {
           return this.parseFunctionStatement(false);
         case 'this':
           return new Node.ThisExpression();
+        case 'class':
+          return this.parseClassExpression();
         default:
           return this.parseIdentifier(token.value);
       }
     default:
       throw new Error();
+  }
+}
+
+// ()
+Parser.prototype.parseGroupExpression = function () {
+  if (this.match(')')) {
+    this.nextToken();
+    return this.parseArrowExpression(null);
+  } else {
+    return this.parseParenExpression();
   }
 }
 
@@ -218,7 +237,13 @@ Parser.prototype.parseIdentifier = function (value) {
   // } else {
   //   return new Node.Identifier(value);
   // }
-  return new Node.Identifier(value);
+  let id = new Node.Identifier(value);
+  if (this.match('=>')) {
+    let params = [];
+    params.push(id);
+    return this.parseArrowExpression(params);
+  }
+  return id;
 }
 
 // 解析以逗号分隔的表达式列表

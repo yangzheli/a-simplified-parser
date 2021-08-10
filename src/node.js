@@ -7,6 +7,18 @@ export class ArrayExpression {
   }
 }
 
+export class ArrowFunctionExpression {
+  constructor(params, body, expression) {
+    this.type = SyntaxTypes.ArrowFunctionExpression;
+    this.id = null;
+    this.params = params;
+    this.body = body;
+    this.generator = false;
+    this.expression = expression;
+    this.async = false;
+  }
+}
+
 // esprima.js 
 export class AssignmentExpression {
   constructor(operator, left, right) {
@@ -77,6 +89,31 @@ export class CatchClause {
   constructor(param, body) {
     this.type = SyntaxTypes.CatchClause;
     this.param = param;
+    this.body = body;
+  }
+}
+
+export class ClassBody {
+  constructor(body) {
+    this.type = SyntaxTypes.ClassBody;
+    this.body = body;
+  }
+}
+
+export class ClassDeclaration {
+  constructor(id, superClass, body) {
+    this.type = SyntaxTypes.ClassDeclaration;
+    this.id = id;
+    this.superClass = superClass;
+    this.body = body;
+  }
+}
+
+export class ClassExpression {
+  constructor(id, superClass, body) {
+    this.type = SyntaxTypes.ClassExpression;
+    this.id = id;
+    this.superClass = superClass;
     this.body = body;
   }
 }
@@ -223,6 +260,17 @@ export class MemberExpression {
     this.object = object;
     this.property = property;
     this.computed = computed;
+  }
+}
+
+export class MethodDefinition {
+  constructor(key, computed, value, kind, isStatic) {
+    this.type = SyntaxTypes.MethodDefinition;
+    this.key = key;
+    this.computed = computed;
+    this.value = value;
+    this.kind = kind;
+    this.static = isStatic;
   }
 }
 

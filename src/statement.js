@@ -20,6 +20,8 @@ Parser.prototype.parseStatement = function () {
 
   if (type === TokenTypes.Keyword) {
     switch (value) {
+      case 'class':
+        return this.parseClass(true);
       case 'if':
         return this.parseIfStatement();
       case 'break':
@@ -60,6 +62,26 @@ Parser.prototype.parseStatement = function () {
     return this.parseLabeledStatement(expr);
   }
   return this.parseExpressionStatement(token, expr);
+}
+
+// class
+Parser.prototype.parseClass = function (isStatement) {
+  this.expectKeyword('class');
+  let id = this.parseVariableIdentifier();
+  let superClass = null;
+  if (this.matchKeyword('extends')) {
+    this.expectKeyword('extends');
+    superClass = this.parseAtomicExpression();
+  }
+  this.expect('{')
+  let classBody = [];
+  while (!this.match('}')) {
+    this.nextToken()
+  }
+  let body = new Node.ClassBody(classBody);
+  this.expect('}');
+  if (isStatement) return new Node.ClassDeclaration(id, superClass, body);
+  return new Node.ClassExpression(id, superClass, body);
 }
 
 // ;

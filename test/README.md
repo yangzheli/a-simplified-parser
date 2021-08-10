@@ -27,6 +27,12 @@
   - [do while](#do-while)
   - [switch case](#switch-case) 
   - [function](#function)
+  - [labelled](#labelled)
+  - [return](#return)
+  - [throw](#throw)
+  - [try catch](#try-catch)
+  - [with](#with)
+  - [debugger](#debugger)
   
 ## Expression
 
@@ -419,6 +425,38 @@ var hi = function eval() { };
 var hi = function arguments() { };
 var hello = function hi() { sayHi() };
 (function(){})
+```
+
+### class
+
+```javascript
+class A {}
+class A extends 0 {}
+class A {;}
+class A {;;}
+class A {a(){}}
+class A {a(){}b(){}}
+class A {a(){};b(){}}
+class A {a(){};b(){};}
+class A {;a(){};b(){};}
+class A {static(){};}
+class A {get a(){} set b(c){};}
+class A {static a(){} static get a(){} static set a(b){} }
+class A {static a(){};}
+class A {static [a](){};}
+class A {static[a](){}; static[b](){}}
+class A {static static(){};}
+var x = class A extends 0{}
+class A {prototype(){}}
+class A {constructor(){}}
+class A {"constructor"(){} ["constructor"](){}}
+class A {static constructor(){} static constructor(){}}
+class A {static ["prototype"](){}}
+(class {})
+(class A {})
+(class extends 0{})
+(class A extends 0{})
+class A {a(eval){}}
 ```
 
 ### labelled
