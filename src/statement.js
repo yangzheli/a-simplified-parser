@@ -352,7 +352,7 @@ Parser.prototype.parseTryStatement = function () {
 
 // Labeled statement
 Parser.prototype.parseLabeledStatement = function (expr) {
-  let labels = this.context.labels, value = expr.name;
+  let labels = this.context.labels;
   if (labels.indexOf(expr.name) !== -1) throw new Error('Label ' + expr.value + 'is already declared');
   labels.push(expr.name);
   let body = this.parseStatement();

@@ -1,6 +1,6 @@
 import { Parser } from './parser.js'
 import { Character } from './character.js'
-import { TokenTypes, SyntaxTypes } from './type.js'
+import { TokenTypes } from './type.js'
 import { Errors } from './error.js'
 
 /**
@@ -70,9 +70,9 @@ Parser.prototype.readToken = function () {
 
     if (Character.isIdentifierStart(ch)) return this.readWord();
 
-    if (ch === '\.' || Character.isDecimalDigit(ch)) return this.readNumber();
+    if (ch === '.' || Character.isDecimalDigit(ch)) return this.readNumber();
 
-    if (ch === '\'' || ch === '\"') return this.readString();
+    if (ch === '\'' || ch === '"') return this.readString();
 
     throw new TypeError(Errors.UnexpectedToken + ":" + ch);
 }
@@ -95,10 +95,10 @@ Parser.prototype.readWord = function () {
 
 // Read a single number
 Parser.prototype.readNumber = function () {
-    let start = this.pos, ch = this.input[this.pos];
+    let ch = this.input[this.pos];
     let number = '';
 
-    if (ch !== '\.') {
+    if (ch !== '.') {
         // Non decimal number
         // Hex number starts with '0x' or '0X'
         // Octal number starts with '0' '0o' or '0O'
@@ -155,7 +155,7 @@ Parser.prototype.readNumber = function () {
         }
     }
 
-    if (ch === '\.') {
+    if (ch === '.') {
         number += this.input[this.pos++];
         while (this.pos < this.inputLen) {
             ch = this.input[this.pos];
@@ -238,8 +238,8 @@ Parser.prototype.readEscapedChar = function () {
             return '\0';
         case '\'':
             return '\'';
-        case '\"':
-            return '\"';
+        case '"':
+            return '"';
         case '\\':
             return '\\';
         default:
@@ -256,13 +256,13 @@ Parser.prototype.readPunctuator = function () {
         return this.readRegexp();
     }
 
-    if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === ';' || ch === ',') {
+    if (ch === '{' || ch === '}' || ch === '(' || ch === ')' || ch === ';' || ch === ',' || ch === '`') {
         ++this.pos;
         return this.finishToken(TokenTypes.Punctuator, ch);
     }
 
     let ch2 = this.input[this.pos + 1];
-    if (ch === '\.' && !Character.isDecimalDigit(ch2)) {
+    if (ch === '.' && !Character.isDecimalDigit(ch2)) {
         ++this.pos;
         if (this.input[this.pos] === '.' && this.input[this.pos + 1] === '.') {
             this.pos += 2;
@@ -290,7 +290,7 @@ Parser.prototype.readPunctuator = function () {
     if (str === '&&' || str === '||' || str === '==' || str === '!=' || str === '+=' || str === '-=' ||
         str === '*=' || str === '/=' || str === '++' || str === '--' || str === '<<' || str === '>>' ||
         str === '&=' || str === '|=' || str === '^=' || str === '%=' || str === '<=' || str === '>=' ||
-        str === '=>' || str === '**') {
+        str === '=>' || str === '**' || str === '${') {
         this.pos += 2;
         return this.finishToken(TokenTypes.Punctuator, str);
     }

@@ -1,6 +1,6 @@
-import { Parser } from './parser.js'
-import { SyntaxTypes, TokenTypes } from './type.js';
-import * as Node from './node.js'
+import { Parser } from "./parser.js"
+import { TokenTypes } from "./type.js";
+import * as Node from "./node.js"
 
 Parser.prototype.parseExpression = function () {
   let expr = this.parseAssignmentExpression();
@@ -21,7 +21,7 @@ Parser.prototype.parseAssignmentExpression = function () {
 
 // =>
 Parser.prototype.parseArrowExpression = function (params) {
-  this.expect('=>');
+  this.expect("=>");
   let body = this.parseFunctionBody();
   return new Node.ArrowFunctionExpression(params, body, true);
 }
@@ -30,10 +30,10 @@ Parser.prototype.parseArrowExpression = function (params) {
 Parser.prototype.parseConditionalExpression = function () {
   let expr = this.parseUnaryExpression();
 
-  if (this.match('?')) {
+  if (this.match("?")) {
     this.nextToken();
     let consequent = this.parseAtomicExpression();
-    this.expect(':');
+    this.expect(":");
     let alternate = this.parseAtomicExpression();
     return new Node.ConditionalExpression(expr, consequent, alternate);
   }
@@ -49,14 +49,14 @@ Parser.prototype.parseUnaryExpression = function () {
     this.nextToken();
     let expr = this.parseUnaryExpression();
     // UpdateExpression
-    if (operator === '++' || operator === '--') return new Node.UpdateExpression(operator, expr, true);
+    if (operator === "++" || operator === "--") return new Node.UpdateExpression(operator, expr, true);
     // UnaryExpression
     return new Node.UnaryExpression(operator, expr);
   }
 
   let expr = this.parseExprSubscripts();
   // 后缀
-  if (this.match('++') || this.match('--')) {
+  if (this.match("++") || this.match("--")) {
     let operator = this.nextToken().value;
     expr = new Node.UpdateExpression(operator, expr, false)
   }
@@ -72,18 +72,18 @@ Parser.prototype.parseExprSubscripts = function () {
 
 // 递归解析
 Parser.prototype.parseSubscripts = function (expr, nocalls) {
-  if (this.match('.')) {
+  if (this.match(".")) {
     this.nextToken();
     let property = this.parseAtomicExpression();
     return this.parseSubscripts(new Node.MemberExpression(expr, property, false), nocalls);
-  } else if (this.match('[')) {
+  } else if (this.match("[")) {
     this.nextToken();
     let property = this.parseAtomicExpression();
-    this.expect(']');
+    this.expect("]");
     return this.parseSubscripts(new Node.MemberExpression(expr, property, true), nocalls);
-  } else if (!nocalls && this.match('(')) {
+  } else if (!nocalls && this.match("(")) {
     this.nextToken();
-    let args = this.parseExprList(')');
+    let args = this.parseExprList(")");
     return this.parseSubscripts(new Node.CallExpression(expr, args), nocalls);
   }
 
@@ -96,7 +96,7 @@ Parser.prototype.binaryPrecedence = function (token) {
   if (type === TokenTypes.Punctuator) {
     precedence = this.operatorPrecedence[op] || 0;
   } else if (type === TokenTypes.Keyword) {
-    precedence = (op === 'instanceof' || (this.context.allowIn && op === 'in')) ? 7 : 0;
+    precedence = (op === "instanceof" || (this.context.allowIn && op === "in")) ? 7 : 0;
   }
   return precedence;
 }
@@ -126,13 +126,14 @@ Parser.prototype.parseAtomicExpression = function () {
   switch (token.type) {
     case TokenTypes.Punctuator:
       switch (token.value) {
-        case '(':
+        case "(":
           return this.parseGroupExpression();
-        case '{':
+        case "{":
           return this.parseObj();
-        case '[':
-          let elements = this.parseExprList(']');
-          return new Node.ArrayExpression(elements);
+        case "[":
+          return new Node.ArrayExpression(this.parseExprList("]"));
+        case '`':
+          return this.parseTemplate();
         default:
           throw new Error();
       }
@@ -146,13 +147,13 @@ Parser.prototype.parseAtomicExpression = function () {
     case TokenTypes.NullLiteral:
     case TokenTypes.Keyword:
       switch (token.value) {
-        case 'new':
+        case "new":
           return this.parseNewExpression();
-        case 'function':
+        case "function":
           return this.parseFunctionStatement(false);
-        case 'this':
+        case "this":
           return new Node.ThisExpression();
-        case 'class':
+        case "class":
           return this.parseClassExpression();
         default:
           return this.parseIdentifier(token.value);
@@ -162,9 +163,39 @@ Parser.prototype.parseAtomicExpression = function () {
   }
 }
 
+// ``
+Parser.prototype.parseTemplate = function () {
+  let quasis = [];
+  let expressions = [];
+  let ele = this.parseTemplateElement();
+  quasis.push(ele);
+
+  while (!ele.tail) {
+    if (this.lookahead.type === TokenTypes.EOF) throw new Error();
+    this.expect('${')
+    expressions.push(this.parseExpression());
+    this.expect('}');
+
+    quasis.push(this.parseTemplateElement());
+  }
+  this.expect('`');
+
+  return new Node.TemplateLiteral(quasis, expressions);
+}
+
+Parser.prototype.parseTemplateElement = function () {
+  let value = { raw: "", cooked: "" };
+  if (this.lookahead.type !== TokenTypes.Punctuator) {
+    let token = this.nextToken();
+    value = { raw: token.value, cooked: token.value };
+  }
+  let tail = this.match('`');
+  return new Node.TemplateElement(value, tail);
+}
+
 // ()
 Parser.prototype.parseGroupExpression = function () {
-  if (this.match(')')) {
+  if (this.match(")")) {
     this.nextToken();
     return this.parseArrowExpression(null);
   } else {
@@ -175,7 +206,7 @@ Parser.prototype.parseGroupExpression = function () {
 // () 
 Parser.prototype.parseParenExpression = function () {
   let expr = this.parseExpression();
-  this.expect(')');
+  this.expect(")");
   return expr;
 }
 
@@ -183,11 +214,11 @@ Parser.prototype.parseParenExpression = function () {
 Parser.prototype.parseObj = function () {
   let properties = [];
 
-  while (!this.match('}')) {
+  while (!this.match("}")) {
     properties.push(this.parseObjProperty());
-    if (!this.match('}')) this.expect(',');
+    if (!this.match("}")) this.expect(",");
   }
-  this.expect('}');
+  this.expect("}");
 
   return new Node.ObjectExpression(properties);
 }
@@ -213,13 +244,13 @@ Parser.prototype.parseObjProperty = function () {
       throw new Error();
   }
   this.nextToken();
-  if (token.type === TokenTypes.Identifier && (token.value === 'get' || token.value === 'set')) {
+  if (token.type === TokenTypes.Identifier && (token.value === "get" || token.value === "set")) {
     kind = token.value;
     key = this.parseAtomicExpression();
     value = this.parseFunctionStatement(false);
   } else {
-    kind = 'init';
-    if (this.match(':')) {
+    kind = "init";
+    if (this.match(":")) {
       this.nextToken();
       value = this.parseAtomicExpression();
     }
@@ -238,7 +269,7 @@ Parser.prototype.parseIdentifier = function (value) {
   //   return new Node.Identifier(value);
   // }
   let id = new Node.Identifier(value);
-  if (this.match('=>')) {
+  if (this.match("=>")) {
     let params = [];
     params.push(id);
     return this.parseArrowExpression(params);
@@ -251,17 +282,17 @@ Parser.prototype.parseExprList = function (close) {
   let elements = [];
 
   while (!this.match(close)) {
-    if (this.match(',')) {
+    if (this.match(",")) {
       this.nextToken();
       elements.push(null);
-    } else if (this.match('...')) {
+    } else if (this.match("...")) {
       this.nextToken();
       let element = this.parseAtomicExpression();
       elements.push(new Node.RestElement(element));
     } else {
       let element = this.parseAtomicExpression();
       elements.push(element);
-      if (!this.match(close)) this.expect(',');
+      if (!this.match(close)) this.expect(",");
     }
   }
   this.expect(close);
@@ -281,9 +312,9 @@ Parser.prototype.parseRegexLiteral = function (value, raw, regex) {
 Parser.prototype.parseNewExpression = function () {
   let callee = this.parseSubscripts(this.parseAtomicExpression(), true);
   let args = null;
-  if (this.match('(')) {
+  if (this.match("(")) {
     this.nextToken();
-    args = this.parseExprList(')');
+    args = this.parseExprList(")");
   }
   return new Node.NewExpression(callee, args);
 }

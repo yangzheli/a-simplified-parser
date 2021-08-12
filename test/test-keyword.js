@@ -1519,7 +1519,7 @@ test("done: while (true) { continue done }", {
   "sourceType": "script"
 })
 
-test("done: while (true) { continue done; }",{
+test("done: while (true) { continue done; }", {
   "type": "Program",
   "body": [
     {
@@ -1577,7 +1577,7 @@ test("while (true) { break }", {
   "sourceType": "script"
 })
 
-test("done: while (true) { break done }",{
+test("done: while (true) { break done }", {
   "type": "Program",
   "body": [
     {
@@ -1611,7 +1611,7 @@ test("done: while (true) { break done }",{
   "sourceType": "script"
 })
 
-test("done: while (true) { break done; }",{
+test("done: while (true) { break done; }", {
   "type": "Program",
   "body": [
     {
@@ -2050,7 +2050,7 @@ test("function test(t, t) { }", {
   "sourceType": "script"
 })
 
-test("(function test(t, t) { })",{
+test("(function test(t, t) { })", {
   "type": "Program",
   "body": [
     {
@@ -2954,7 +2954,7 @@ test("(function(){})", {
 // class A {a(eval){}}
 
 // labelled
-test("start: for (;;) break start",{
+test("start: for (;;) break start", {
   "type": "Program",
   "body": [
     {
@@ -2981,7 +2981,7 @@ test("start: for (;;) break start",{
   "sourceType": "script"
 })
 
-test("start: while (true) break start",{
+test("start: while (true) break start", {
   "type": "Program",
   "body": [
     {
@@ -3010,7 +3010,7 @@ test("start: while (true) break start",{
   "sourceType": "script"
 })
 
-test("__proto__: test",{
+test("__proto__: test", {
   "type": "Program",
   "body": [
     {

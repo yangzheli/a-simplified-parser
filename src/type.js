@@ -25,7 +25,6 @@ export const SyntaxTypes = {
     BlockStatement: 'BlockStatement',    // {}
     ArrayExpression: 'ArrayExpression', // []
     AssignmentExpression: 'AssignmentExpression',    // =
-    EmptyStatement: 'EmptyStatement',   // ;
     BinaryExpression: 'BinaryExpression',   // typeof instanceof
     ExpressionStatement: 'ExpressionStatement', // ?:
     LogicalExpression: 'LogicalExpression',
@@ -38,6 +37,8 @@ export const SyntaxTypes = {
     RestElement: 'RestElement', // ...
     LabeledStatement: 'LabeledStatement',   // :
     ArrowFunctionExpression: 'ArrowFunctionExpression', // =>
+    TemplateElement: 'TemplateElement', // ``
+    TemplateLiteral: 'TemplateLiteral', // ``
 
     // identifier
     Identifier: 'Identifier',

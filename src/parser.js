@@ -24,7 +24,8 @@ export class Parser {
       allowRegexp: true,
       hasLineTerminator: false,
       inFunction: false,
-      labels: []
+      labels: [],
+      inTemplate: false
     }
 
     // esprima.js

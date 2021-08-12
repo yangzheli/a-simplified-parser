@@ -11,6 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "lint": "eslint src",
     "deploy": "sh deploy.sh"
   },
   "repository": {
@@ -27,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/yangzheli/a-simplified-parser/issues"
   },
-  "homepage": "https://github.com/yangzheli/a-simplified-parser#readme"
+  "homepage": "https://github.com/yangzheli/a-simplified-parser#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
 }

@@ -1,6 +1,5 @@
 import { Parser } from './parser.js'
 import { TokenTypes } from './type.js'
-import { Character } from './character.js'
 
 // Except the next token matches the specified punctuator
 Parser.prototype.expect = function (value) {

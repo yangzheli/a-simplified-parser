@@ -2506,7 +2506,7 @@ test("() => \"test\"", {
   "sourceType": "script"
 })
 
-test("e => \"test\"",{
+test("e => \"test\"", {
   "type": "Program",
   "body": [
     {

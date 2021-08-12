@@ -5,6 +5,7 @@
 - [Expression](#Expression)
   - [number](#number)
   - [string](#string)
+  - [template](#template)
   - [regexp](#regexp)
   - [array](#array)
   - [object](#object)
@@ -63,6 +64,23 @@ var source = '"\\u0061"';
 "Hello\712World"
 "Hello\0World"
 "Hello\1World"
+```
+
+### template
+
+```javascript
+`foo`
+`foo\u25a0`
+`foo${bar}\u25a0`
+foo`\u25a0`
+foo`foo${bar}\u25a0`
+foo`\unicode`
+foo`foo${bar}\unicode`
+foo`\u`
+foo`\u{`
+foo`\u{abcdx`
+foo`\u{abcdx}`
+foo`\unicode\\`
 ```
 
 ### regexp

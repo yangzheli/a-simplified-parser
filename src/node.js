@@ -340,6 +340,22 @@ export class SwitchStatement {
   }
 }
 
+export class TemplateElement {
+  constructor(value, tail) {
+    this.type = SyntaxTypes.TemplateElement;
+    this.value = value;
+    this.tail = tail;
+  }
+}
+
+export class TemplateLiteral {
+  constructor(quasis, expressions) {
+    this.type = SyntaxTypes.TemplateLiteral;
+    this.quasis = quasis;
+    this.expressions = expressions;
+  }
+}
+
 export class ThisExpression {
   constructor() {
     this.type = SyntaxTypes.ThisExpression;
