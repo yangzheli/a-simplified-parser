@@ -1,7 +1,11 @@
-import { SyntaxTypes, TokenTypes } from "./type.js"
+import StatementParser from "./statement.js";
+import { Syntax } from "./Syntax.js";
+import { TokenTypes } from "../tokenize/type.js";
 
-export class Parser {
+export default class Parser extends StatementParser {
   constructor(input) {
+    super(input);
+
     this.input = input;
 
     this.inputLen = input.length;
@@ -61,24 +65,25 @@ export class Parser {
 
     this.nextToken();
   }
-}
 
-Parser.prototype.parseProgram = function () {
-  const program = {
-    type: SyntaxTypes.Program,
-    body: this.parseSourceElements(),
-    sourceType: 'script'
-  };
-  return program;
-}
-
-Parser.prototype.parseSourceElements = function () {
-  let sourceElements = [];
-
-  while (this.lookahead.type != TokenTypes.EOF) {
-    let sourceElement = this.parseStatement();
-    sourceElements.push(sourceElement);
+  parseProgram() {
+    const program = {
+      type: Syntax.Program,
+      body: this.parseSourceElements(),
+      sourceType: 'script'
+    };
+    return program;
   }
 
-  return sourceElements;
+  parseSourceElements() {
+    let sourceElements = [];
+
+    while (this.lookahead.type != TokenTypes.EOF) {
+      let sourceElement = this.parseStatement();
+      sourceElements.push(sourceElement);
+    }
+
+    return sourceElements;
+  }
 }
+

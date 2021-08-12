@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/yangzheli/a-simplified-parser#readme",
   "devDependencies": {
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "vuepress": "^1.8.2"
   }
 }

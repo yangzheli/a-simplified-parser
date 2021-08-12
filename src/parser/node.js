@@ -1,15 +1,15 @@
-import { SyntaxTypes } from "./type.js";
+import { Syntax } from "./Syntax.js";
 
 export class ArrayExpression {
   constructor(elements) {
-    this.type = SyntaxTypes.ArrayExpression;
+    this.type = Syntax.ArrayExpression;
     this.elements = elements;
   }
 }
 
 export class ArrowFunctionExpression {
   constructor(params, body, expression) {
-    this.type = SyntaxTypes.ArrowFunctionExpression;
+    this.type = Syntax.ArrowFunctionExpression;
     this.id = null;
     this.params = params;
     this.body = body;
@@ -22,7 +22,7 @@ export class ArrowFunctionExpression {
 // esprima.js 
 export class AssignmentExpression {
   constructor(operator, left, right) {
-    this.type = SyntaxTypes.AssignmentExpression;
+    this.type = Syntax.AssignmentExpression;
     this.operator = operator;
     this.left = left;
     this.right = right;
@@ -31,7 +31,7 @@ export class AssignmentExpression {
 
 export class AsyncFunctionDeclaration {
   constructor(id, params, body, generator) {
-    this.type = SyntaxTypes.FunctionDeclaration;
+    this.type = Syntax.FunctionDeclaration;
     this.id = id;
     this.params = params;
     this.body = body;
@@ -43,7 +43,7 @@ export class AsyncFunctionDeclaration {
 
 export class AsyncFunctionExpression {
   constructor(id, params, body, generator) {
-    this.type = SyntaxTypes.FunctionExpression;
+    this.type = Syntax.FunctionExpression;
     this.id = id;
     this.params = params;
     this.body = body;
@@ -56,7 +56,7 @@ export class AsyncFunctionExpression {
 export class BinaryExpression {
   constructor(operator, left, right) {
     const logical = operator === '||' || operator === '&&';
-    this.type = logical ? SyntaxTypes.LogicalExpression : SyntaxTypes.BinaryExpression;
+    this.type = logical ? Syntax.LogicalExpression : Syntax.BinaryExpression;
     this.operator = operator;
     this.left = left;
     this.right = right;
@@ -65,21 +65,21 @@ export class BinaryExpression {
 
 export class BlockStatement {
   constructor(body) {
-    this.type = SyntaxTypes.BlockStatement;
+    this.type = Syntax.BlockStatement;
     this.body = body;
   }
 }
 
 export class BreakStatement {
   constructor(label) {
-    this.type = SyntaxTypes.BreakStatement;
+    this.type = Syntax.BreakStatement;
     this.label = label;
   }
 }
 
 export class CallExpression {
   constructor(callee, args) {
-    this.type = SyntaxTypes.CallExpression;
+    this.type = Syntax.CallExpression;
     this.callee = callee;
     this.arguments = args;
   }
@@ -87,7 +87,7 @@ export class CallExpression {
 
 export class CatchClause {
   constructor(param, body) {
-    this.type = SyntaxTypes.CatchClause;
+    this.type = Syntax.CatchClause;
     this.param = param;
     this.body = body;
   }
@@ -95,14 +95,14 @@ export class CatchClause {
 
 export class ClassBody {
   constructor(body) {
-    this.type = SyntaxTypes.ClassBody;
+    this.type = Syntax.ClassBody;
     this.body = body;
   }
 }
 
 export class ClassDeclaration {
   constructor(id, superClass, body) {
-    this.type = SyntaxTypes.ClassDeclaration;
+    this.type = Syntax.ClassDeclaration;
     this.id = id;
     this.superClass = superClass;
     this.body = body;
@@ -111,7 +111,7 @@ export class ClassDeclaration {
 
 export class ClassExpression {
   constructor(id, superClass, body) {
-    this.type = SyntaxTypes.ClassExpression;
+    this.type = Syntax.ClassExpression;
     this.id = id;
     this.superClass = superClass;
     this.body = body;
@@ -120,7 +120,7 @@ export class ClassExpression {
 
 export class ConditionalExpression {
   constructor(test, consequent, alternate) {
-    this.type = SyntaxTypes.ConditionalExpression;
+    this.type = Syntax.ConditionalExpression;
     this.test = test;
     this.consequent = consequent;
     this.alternate = alternate;
@@ -129,20 +129,20 @@ export class ConditionalExpression {
 
 export class ContinueStatement {
   constructor(label) {
-    this.type = SyntaxTypes.ContinueStatement;
+    this.type = Syntax.ContinueStatement;
     this.label = label;
   }
 }
 
 export class DebuggerStatement {
   constructor() {
-    this.type = SyntaxTypes.DebuggerStatement;
+    this.type = Syntax.DebuggerStatement;
   }
 }
 
 export class Directive {
   constructor(expression, directive) {
-    this.type = SyntaxTypes.ExpressionStatement;
+    this.type = Syntax.ExpressionStatement;
     this.expression = expression;
     this.directive = directive;
   }
@@ -150,7 +150,7 @@ export class Directive {
 
 export class DoWhileStatement {
   constructor(body, test) {
-    this.type = SyntaxTypes.DoWhileStatement;
+    this.type = Syntax.DoWhileStatement;
     this.body = body;
     this.test = test;
   }
@@ -158,20 +158,20 @@ export class DoWhileStatement {
 
 export class EmptyStatement {
   constructor() {
-    this.type = SyntaxTypes.EmptyStatement;
+    this.type = Syntax.EmptyStatement;
   }
 }
 
 export class ExpressionStatement {
   constructor(expression) {
-    this.type = SyntaxTypes.ExpressionStatement;
+    this.type = Syntax.ExpressionStatement;
     this.expression = expression;
   }
 }
 
 export class ForInStatement {
   constructor(left, right, body) {
-    this.type = SyntaxTypes.ForInStatement;
+    this.type = Syntax.ForInStatement;
     this.left = left;
     this.right = right;
     this.body = body;
@@ -181,7 +181,7 @@ export class ForInStatement {
 
 export class ForOfStatement {
   constructor(left, right, body) {
-    this.type = SyntaxTypes.ForOfStatement;
+    this.type = Syntax.ForOfStatement;
     this.left = left;
     this.right = right;
     this.body = body;
@@ -190,7 +190,7 @@ export class ForOfStatement {
 
 export class ForStatement {
   constructor(init, test, update, body) {
-    this.type = SyntaxTypes.ForStatement;
+    this.type = Syntax.ForStatement;
     this.init = init;
     this.test = test;
     this.update = update;
@@ -200,7 +200,7 @@ export class ForStatement {
 
 export class FunctionDeclaration {
   constructor(id, params, body, generator) {
-    this.type = SyntaxTypes.FunctionDeclaration;
+    this.type = Syntax.FunctionDeclaration;
     this.id = id;
     this.params = params;
     this.body = body;
@@ -212,7 +212,7 @@ export class FunctionDeclaration {
 
 export class FunctionExpression {
   constructor(id, params, body, generator) {
-    this.type = SyntaxTypes.FunctionExpression;
+    this.type = Syntax.FunctionExpression;
     this.id = id;
     this.params = params;
     this.body = body;
@@ -224,14 +224,14 @@ export class FunctionExpression {
 
 export class Identifier {
   constructor(name) {
-    this.type = SyntaxTypes.Identifier;
+    this.type = Syntax.Identifier;
     this.name = name;
   }
 }
 
 export class IfExpression {
   constructor(test, consequent, alternate) {
-    this.type = SyntaxTypes.IfStatement;
+    this.type = Syntax.IfStatement;
     this.test = test;
     this.consequent = consequent;
     this.alternate = alternate;
@@ -240,7 +240,7 @@ export class IfExpression {
 
 export class LabeledStatement {
   constructor(label, body) {
-    this.type = SyntaxTypes.LabeledStatement;
+    this.type = Syntax.LabeledStatement;
     this.label = label;
     this.body = body;
   }
@@ -248,7 +248,7 @@ export class LabeledStatement {
 
 export class Literal {
   constructor(value, raw) {
-    this.type = SyntaxTypes.Literal;
+    this.type = Syntax.Literal;
     this.value = value;
     this.raw = raw;
   }
@@ -256,7 +256,7 @@ export class Literal {
 
 export class MemberExpression {
   constructor(object, property, computed) {
-    this.type = SyntaxTypes.MemberExpression;
+    this.type = Syntax.MemberExpression;
     this.object = object;
     this.property = property;
     this.computed = computed;
@@ -265,7 +265,7 @@ export class MemberExpression {
 
 export class MethodDefinition {
   constructor(key, computed, value, kind, isStatic) {
-    this.type = SyntaxTypes.MethodDefinition;
+    this.type = Syntax.MethodDefinition;
     this.key = key;
     this.computed = computed;
     this.value = value;
@@ -276,7 +276,7 @@ export class MethodDefinition {
 
 export class NewExpression {
   constructor(callee, args) {
-    this.type = SyntaxTypes.NewExpression;
+    this.type = Syntax.NewExpression;
     this.callee = callee;
     this.arguments = args;
   }
@@ -284,14 +284,14 @@ export class NewExpression {
 
 export class ObjectExpression {
   constructor(properties) {
-    this.type = SyntaxTypes.ObjectExpression;
+    this.type = Syntax.ObjectExpression;
     this.properties = properties;
   }
 }
 
 export class Property {
   constructor(kind, key, value, computed, method, shorthand) {
-    this.type = SyntaxTypes.Property;
+    this.type = Syntax.Property;
     this.kind = kind;
     this.key = key;
     this.value = value;
@@ -303,7 +303,7 @@ export class Property {
 
 export class RegexLiteral {
   constructor(value, raw, regex) {
-    this.type = SyntaxTypes.Literal;
+    this.type = Syntax.Literal;
     this.value = value;
     this.raw = raw;
     this.regex = regex;
@@ -312,21 +312,21 @@ export class RegexLiteral {
 
 export class RestElement {
   constructor(argument) {
-    this.type = SyntaxTypes.RestElement;
+    this.type = Syntax.RestElement;
     this.argument = argument;
   }
 }
 
 export class ReturnStatement {
   constructor(argument) {
-    this.type = SyntaxTypes.ReturnStatement;
+    this.type = Syntax.ReturnStatement;
     this.argument = argument;
   }
 }
 
 export class SwitchCase {
   constructor(test, consequent) {
-    this.type = SyntaxTypes.SwitchCase;
+    this.type = Syntax.SwitchCase;
     this.test = test;
     this.consequent = consequent;
   }
@@ -334,7 +334,7 @@ export class SwitchCase {
 
 export class SwitchStatement {
   constructor(discriminant, cases) {
-    this.type = SyntaxTypes.SwitchStatement;
+    this.type = Syntax.SwitchStatement;
     this.discriminant = discriminant;
     this.cases = cases;
   }
@@ -342,7 +342,7 @@ export class SwitchStatement {
 
 export class TemplateElement {
   constructor(value, tail) {
-    this.type = SyntaxTypes.TemplateElement;
+    this.type = Syntax.TemplateElement;
     this.value = value;
     this.tail = tail;
   }
@@ -350,7 +350,7 @@ export class TemplateElement {
 
 export class TemplateLiteral {
   constructor(quasis, expressions) {
-    this.type = SyntaxTypes.TemplateLiteral;
+    this.type = Syntax.TemplateLiteral;
     this.quasis = quasis;
     this.expressions = expressions;
   }
@@ -358,20 +358,20 @@ export class TemplateLiteral {
 
 export class ThisExpression {
   constructor() {
-    this.type = SyntaxTypes.ThisExpression;
+    this.type = Syntax.ThisExpression;
   }
 }
 
 export class ThrowStatement {
   constructor(argument) {
-    this.type = SyntaxTypes.ThrowStatement;
+    this.type = Syntax.ThrowStatement;
     this.argument = argument;
   }
 }
 
 export class TryStatement {
   constructor(block, handler, finalizer) {
-    this.type = SyntaxTypes.TryStatement;
+    this.type = Syntax.TryStatement;
     this.block = block;
     this.handler = handler;
     this.finalizer = finalizer;
@@ -380,7 +380,7 @@ export class TryStatement {
 
 export class UnaryExpression {
   constructor(operator, argument) {
-    this.type = SyntaxTypes.UnaryExpression;
+    this.type = Syntax.UnaryExpression;
     this.operator = operator;
     this.argument = argument;
     this.prefix = true;
@@ -389,7 +389,7 @@ export class UnaryExpression {
 
 export class UpdateExpression {
   constructor(operator, argument, prefix) {
-    this.type = SyntaxTypes.UpdateExpression;
+    this.type = Syntax.UpdateExpression;
     this.operator = operator;
     this.argument = argument;
     this.prefix = prefix;
@@ -398,7 +398,7 @@ export class UpdateExpression {
 
 export class VariableDeclaration {
   constructor(declarations, kind) {
-    this.type = SyntaxTypes.VariableDeclaration;
+    this.type = Syntax.VariableDeclaration;
     this.declarations = declarations;
     this.kind = kind;
   }
@@ -406,7 +406,7 @@ export class VariableDeclaration {
 
 export class VariableDeclarator {
   constructor(id, init) {
-    this.type = SyntaxTypes.VariableDeclarator;
+    this.type = Syntax.VariableDeclarator;
     this.id = id;
     this.init = init;
   }
@@ -414,7 +414,7 @@ export class VariableDeclarator {
 
 export class WhileStatement {
   constructor(test, body) {
-    this.type = SyntaxTypes.WhileStatement;
+    this.type = Syntax.WhileStatement;
     this.test = test;
     this.body = body;
   }
@@ -422,7 +422,7 @@ export class WhileStatement {
 
 export class WithStatement {
   constructor(object, body) {
-    this.type = SyntaxTypes.WithStatement;
+    this.type = Syntax.WithStatement;
     this.object = object;
     this.body = body;
   }

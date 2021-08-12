@@ -1,8 +1,4 @@
-import { Parser } from './parser.js'
-import './expression.js'
-import './statement.js'
-import './tokenize.js'
-import './utils.js'
+import Parser from './parser/index.js';
 
 export function parse(input) {
     input = String(input);
