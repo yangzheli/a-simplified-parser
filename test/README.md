@@ -4,6 +4,7 @@
 
 - [Expression](#Expression)
   - [number](#number)
+  - [bigInt](#bigInt)
   - [string](#string)
   - [template](#template)
   - [regexp](#regexp)

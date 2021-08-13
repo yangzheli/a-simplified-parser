@@ -1,26 +1,26 @@
-import StatementParser from "./statement.js";
-import { Syntax } from "./Syntax.js";
-import { TokenTypes } from "../tokenize/type.js";
+import StatementParser from "./statement.js"
+import { Syntax } from "./Syntax.js"
+import { TokenTypes } from "../tokenize/type.js"
 
 export default class Parser extends StatementParser {
   constructor(input) {
-    super(input);
+    super(input)
 
-    this.input = input;
+    this.input = input
 
-    this.inputLen = input.length;
+    this.inputLen = input.length
 
     // next token
-    this.lookahead = null;
+    this.lookahead = null
 
     // The current position of the input
-    this.pos = 0;
+    this.pos = 0
 
     // Its start and end offset
-    this.start = this.end = this.pos;
+    this.start = this.end = this.pos
 
     // The current line of the input
-    this.line = 0;
+    this.line = 0
 
     // context
     this.context = {
@@ -35,55 +35,54 @@ export default class Parser extends StatementParser {
     // esprima.js
     // Operator precedence
     this.operatorPrecedence = {
-      ')': 0,
-      ';': 0,
-      ',': 0,
-      '=': 0,
-      ']': 0,
-      '||': 1,
-      '&&': 2,
-      '|': 3,
-      '^': 4,
-      '&': 5,
-      '==': 6,
-      '!=': 6,
-      '===': 6,
-      '!==': 6,
-      '<': 7,
-      '>': 7,
-      '<=': 7,
-      '>=': 7,
-      '<<': 8,
-      '>>': 8,
-      '>>>': 8,
-      '+': 9,
-      '-': 9,
-      '*': 11,
-      '/': 11,
-      '%': 11
-    };
+      ")": 0,
+      ";": 0,
+      ",": 0,
+      "=": 0,
+      "]": 0,
+      "||": 1,
+      "&&": 2,
+      "|": 3,
+      "^": 4,
+      "&": 5,
+      "==": 6,
+      "!=": 6,
+      "===": 6,
+      "!==": 6,
+      "<": 7,
+      ">": 7,
+      "<=": 7,
+      ">=": 7,
+      "<<": 8,
+      ">>": 8,
+      ">>>": 8,
+      "+": 9,
+      "-": 9,
+      "*": 11,
+      "/": 11,
+      "%": 11
+    }
 
-    this.nextToken();
+    this.nextToken()
   }
 
   parseProgram() {
     const program = {
       type: Syntax.Program,
       body: this.parseSourceElements(),
-      sourceType: 'script'
-    };
-    return program;
+      sourceType: "script"
+    }
+    return program
   }
 
   parseSourceElements() {
-    let sourceElements = [];
+    let sourceElements = []
 
     while (this.lookahead.type != TokenTypes.EOF) {
-      let sourceElement = this.parseStatement();
-      sourceElements.push(sourceElement);
+      let sourceElement = this.parseStatement()
+      sourceElements.push(sourceElement)
     }
 
-    return sourceElements;
+    return sourceElements
   }
 }
-

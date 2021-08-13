@@ -134,7 +134,7 @@ module.exports = {
         "no-extra-label": "error",
         "no-extra-parens": "off",
         "no-floating-decimal": "error",
-        "no-implicit-coercion": "error",
+        // "no-implicit-coercion": "error",
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "off",
@@ -241,13 +241,13 @@ module.exports = {
         "prefer-spread": "error",
         "prefer-template": "off",
         "quote-props": "off",
-        "quotes": "off",
+        "quotes": ["error", "double"],
         "radix": "error",
         "require-atomic-updates": "error",
         "require-await": "error",
         "require-unicode-regexp": "off",
         "rest-spread-spacing": "error",
-        "semi": "off",
+        "semi": [2, "never"], 
         "semi-spacing": "error",
         "semi-style": [
             "error",
@@ -285,4 +285,4 @@ module.exports = {
             "never"
         ]
     }
-};
+}

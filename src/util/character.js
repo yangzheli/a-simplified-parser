@@ -31,10 +31,10 @@ const Keywords = [
   "continue", "instanceof", "throw", "while",
   "debugger", "finally", "new", "with",
   "default", "for", "try"
-];
+]
 
 // reserved words in ECMAScript 5
-const ReservedWord = ["class", "const", "enum", "export", "extends", "import", "super"];
+const ReservedWord = ["class", "const", "enum", "export", "extends", "import", "super"]
 
 // reserved words in strict mode
 // const StrictReservedWord = [
@@ -47,39 +47,39 @@ const ReservedWord = ["class", "const", "enum", "export", "extends", "import", "
 
 export const Character = {
   isIdentifierStart: function (ch) {
-    return Regex.AsciiIdentifierStart.test(ch) || Regex.NonAsciiIdentifierStart.test(ch);
+    return Regex.AsciiIdentifierStart.test(ch) || Regex.NonAsciiIdentifierStart.test(ch)
   },
 
   isIdentifierPart: function (ch) {
-    return Regex.AsciiIdentifierPart.test(ch) || Regex.NonAsciiIdentifierPart.test(ch);
+    return Regex.AsciiIdentifierPart.test(ch) || Regex.NonAsciiIdentifierPart.test(ch)
   },
 
   isKeyWord: function (word) {
-    return Keywords.indexOf(word) !== -1 || ReservedWord.indexOf(word) !== -1;
+    return Keywords.indexOf(word) !== -1 || ReservedWord.indexOf(word) !== -1
   },
 
   isDecimalDigit: function (ch) {
-    return Regex.DecimalDigit.test(ch);
+    return Regex.DecimalDigit.test(ch)
   },
 
   isOctalDigit: function (ch) {
-    return Regex.OctalDigit.test(ch);
+    return Regex.OctalDigit.test(ch)
   },
 
   isHexDigit: function (ch) {
-    return Regex.HexDigit.test(ch);
+    return Regex.HexDigit.test(ch)
   },
 
   isBinaryDigit: function (ch) {
-    return Regex.BinaryDigit.test(ch);
+    return Regex.BinaryDigit.test(ch)
   },
 
   isLineTerminator: function (ch) {
-    return ch === "\n" || ch === "\r" || ch === "\u2028" || ch === "\u2029";
+    return ch === "\n" || ch === "\r" || ch === "\u2028" || ch === "\u2029"
   },
 
   isWhiteSpace: function (ch) {
     return ch === " " || ch === "\u0009" || ch === "\u000B" || ch === "\u000C" || ch === "\u00A0"
-      || (ch.charCodeAt(0) >= 0x1680 && Regex.NonAsciiWhitespace.test(ch));
+      || (ch.charCodeAt(0) >= 0x1680 && Regex.NonAsciiWhitespace.test(ch))
   }
 }
