@@ -43,5 +43,12 @@ module.exports = {
     lastUpdated: '上次更新',
     nextLinks: true,
     prevLinks: true
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@alias': '.vuepress/public'
+      }
+    }
   }
 }

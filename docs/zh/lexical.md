@@ -34,6 +34,64 @@ regexp
 
 template
 
+
+## 数字类型 (Numeric Literals)
+
+::: tip
+本文中涉及词法标准都来自 [ECMA262](https://262.ecma-international.org/12.0/)，强烈推荐阅读最新文档。
+:::
+
+> ECMAScript has two built-in numeric types: Number and BigInt.
+
+ES11 为支持更大范围的整数值，新增了 `bigint` 基本数据类型。
+
+其中 `number` 和 `bigint` 又各自分为十进制 (Decimal)、二进制 (Binary)、八进制 (Octal)、十六进制 (Hex) 四类。
+
+首先，来测试两个简单的例子 (示例为 Chrome 控制台输出):
+
+* 非严格模式下
+
+```javascript
+>> 012
+10
+
+>> 079
+79
+```
+
+* 严格模式下
+
+```javascript
+>> "use strict"
+>> 012
+"Uncaught SyntaxError: Unexpected number" 
+
+>> 079
+"Uncaught SyntaxError: Unexpected number"
+```
+
+`ECMA262` 标准
+
+> When processing strict mode code, must not extend the syntax of NumericLiteral to include LegacyOctalIntegerLiteral, nor extend the syntax of DecimalIntegerLiteral to include NonOctalDecimalIntegerLiteral.
+
+因此，对于严格模式和非严格模式需要区分考虑。首先来分析严格模式下十进制数字 (DecimalLiteral) 的定义:
+
+![decimal literal](../.vuepress/public/decimal-literal.png)
+
+可以看到，十进制数字由整数部分、小数部分和指数部分组成。
+
+`0-9` `e E` `+ -`，其中对于 `-12e+1` 中 `-` 应该额外当作一元运算符，而不把它和数字 `12e+1` 放在一起解析为一个单词。 
+
+这三部分又有各自的定义：
+
+为了更直观表示十进制数字，可以用确定有限状态自动机 (DFA) 来进行表示：
+
+显然，可以轻易将上述 DFA 翻译为代码：
+
+```javascript
+```
+
+
 ## 基本思路
 
 1. 使用 while 循环将输入解析为一个个 token (单词)，对于不同的 token，进行不同的处理
