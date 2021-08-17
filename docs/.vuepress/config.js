@@ -21,7 +21,7 @@ module.exports = {
           { text: 'Chinese', link: '/' }
         ]
       },
-      { text: 'Blog', link: 'https://yangzheli.github.io' }
+      { text: 'Blog', link: 'https://yangzheli.com' }
     ],
     locales: {
       '/': {
