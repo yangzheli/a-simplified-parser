@@ -24,6 +24,7 @@ export default class Parser extends StatementParser {
 
     // context
     this.context = {
+      strict: false,  // 是否为严格模式
       allowIn: true,  // 能否将 in 解析为操作符，例如在 for 语句中 in 不能被解析为操作符
       allowRegexp: true,
       hasLineTerminator: false,

@@ -1,3 +1,5 @@
+const { resolve } = require('path')
+
 module.exports = {
   title: 'A simplified parser',
   description: 'A simplified parser',
@@ -28,6 +30,7 @@ module.exports = {
         sidebar: [
           ['/zh/introduce', '介绍'],
           ['/zh/solution', '思路'],
+          ['/zh/encoding', '字符编码'],
           ['/zh/lexical', '词法分析'],
           ['/zh/syntax', '语法分析'],
           ['/zh/summary', '总结']
@@ -47,7 +50,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@alias': '.vuepress/public'
+        '@alias': resolve(__dirname, './public'),
       }
     }
   }

@@ -1,11 +1,5 @@
 # 词法分析
 
-## 编码问题
-
-JavaScript 采用的是 Unicode 字符集
-
-[JavaScript has a Unicode problem](https://mathiasbynens.be/notes/javascript-unicode)
-
 ## 识别单词
 
 空白符 (white space) 
@@ -43,7 +37,7 @@ template
 
 > ECMAScript has two built-in numeric types: Number and BigInt.
 
-ES11 为支持更大范围的整数值，新增了 `bigint` 基本数据类型。
+`ES2020` 为支持更大范围的整数值，新增了 `bigint` 基本数据类型。
 
 其中 `number` 和 `bigint` 又各自分为十进制 (Decimal)、二进制 (Binary)、八进制 (Octal)、十六进制 (Hex) 四类。
 
@@ -76,19 +70,98 @@ ES11 为支持更大范围的整数值，新增了 `bigint` 基本数据类型�
 
 因此，对于严格模式和非严格模式需要区分考虑。首先来分析严格模式下十进制数字 (DecimalLiteral) 的定义:
 
-![decimal literal](../.vuepress/public/decimal-literal.png)
+![decimal literal](@alias/lexical/decimal-literal.png)
 
 可以看到，十进制数字由整数部分、小数部分和指数部分组成。
 
 `0-9` `e E` `+ -`，其中对于 `-12e+1` 中 `-` 应该额外当作一元运算符，而不把它和数字 `12e+1` 放在一起解析为一个单词。 
 
+同时 `ES2021` 新增了 `_` 作为数字分隔符，因此 `1_200e+1_0` 也是合法的数字。
+
+```javascript
+>> 1_200e+1_0
+12000000000000
+```
+
 这三部分又有各自的定义：
+
+* 整数部分
+
+![decimal literal](@alias/lexical/decimal-integer-literal.png)
+
+整数部分定义为数字 `0`，或数字 `1-9` 开头，数字 `0-9` 组成，数字之间可以插入单个分隔符 `_`。
+
+* 小数部分
+
+![decimal literal](@alias/lexical/decimal-digits.png)
+
+小数部分定义为由数字 `0-9` 组成，数字之间可以插入单个分隔符 `_`。
+
+* 指数部分
+
+![decimal literal](@alias/lexical/exponent-part.png)
+
+指数部分定义为由字符 `e/E` 开头，可选的符号位 `+/-`，数字 `0-9` 组成，数字之间可以插入单个分隔符 `_`。
 
 为了更直观表示十进制数字，可以用确定有限状态自动机 (DFA) 来进行表示：
 
 显然，可以轻易将上述 DFA 翻译为代码：
 
 ```javascript
+```
+
+```javascript
+let pos = 0;
+
+function readNumber(input) {
+  input = String(input);
+  let start = pos;
+
+  // 整数部分
+  if (readDecimalDigits(input) === null) throw new SyntaxError();
+  if (pos - start >= 2 && input.charCodeAt(start) === 48) throw new SyntaxError();
+
+  // 小数部分
+  let code = input.charCodeAt(pos);
+  if (code === 46) {  // .
+    ++pos;
+    if (readDecimalDigits(input) === null) throw new SyntaxError();
+    code = input.charCodeAt(pos);
+  }
+
+  // 指数部分
+  if (code === 69 || code === 101) {  // e/E
+    code = input.charCodeAt(++pos);
+    if (code === 43 || code === 45)++pos;  // +/-
+    if (readDecimalDigits(input) === null) throw new SyntaxError();
+  }
+
+  input = input.slice(start, pos).replace(/_/g, "");
+  let val = parseFloat(input);
+  return val;
+}
+
+// DecimalDigits
+function readDecimalDigits(input) {
+  let total = 0, start = pos, lastCode = 0;
+  for (let i = 0, len = input.length; pos < len; ++i, ++pos) {
+    let code = input.charCodeAt(pos), val = 0;
+
+    if (code === 95) {  // 分隔符_
+      if (i === 0 || lastCode === 95) throw new SyntaxError();
+      lastCode = code;
+      continue;
+    }
+
+    if (code >= 48 && code <= 57) val = code - 48;  // 0-9
+    else break;
+    lastCode = code;
+    total = total * 10 + val;
+  }
+  if (lastCode === 95) throw new SyntaxError();
+
+  return start !== pos ? total : null;
+}
 ```
 
 
